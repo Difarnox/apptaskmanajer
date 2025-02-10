@@ -13,7 +13,7 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")  # Ambil dari Vercel
 mongo = PyMongo(app)
 
 # === SIGNIN ===
-@app.route('/signin', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
         email = request.form.get('email')
