@@ -126,12 +126,12 @@ input {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    height: 36px; /* Kurangi tinggi ikon */
-    width: 36px; /* Kurangi lebar ikon */
+    height: 40px; /* Kurangi tinggi ikon */
+    width: 10px; /* Kurangi lebar ikon */
     background-color: #fff;
     color: #555;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 14px; /* Kurangi ukuran font ikon */
+    font-size: 16px; /* Kurangi ukuran font ikon */
 }
 
 .social-container a:hover {
