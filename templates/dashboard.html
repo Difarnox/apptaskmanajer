@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="icon" type="image/png" href="https://www.freeiconspng.com/uploads/animal-icon-png-1.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js -->
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">Task Management</div>
+        <ul class="nav-list">
+            <li class="active" data-tab="dashboard">Dashboard</li>
+            <li data-tab="tasks">My Tasks</li>
+        </ul>
+        <div class="settings">
+            <p data-tab="logout">Log out</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header>
+            <div class="search-container">
+                <input type="text" placeholder="Search...">
+            </div>
+            <button id="add-task-btn" class="new-task">+ New Task</button>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div id="dashboard-content" class="tab-content active">
+            <h2>Dashboard Overview</h2>
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <i class="fas fa-tasks"></i>
+                    <div>
+                        <h3 id="totalTasks">{{ total_tasks }}</h3>
+                        <p>Total Tasks</p>
+                    </div>
+                </div>
+                <div class="stat-card completed">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <h3 id="completedTasks">{{ completed_tasks }}</h3>
+                        <p>Completed Tasks</p>
+                    </div>
+                </div>
+                <div class="stat-card pending">
+                    <i class="fas fa-hourglass-half"></i>
+                    <div>
+                        <h3 id="pendingTasks">{{ pending_tasks }}</h3>
+                        <p>Pending Tasks</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Deadlines -->
+            <div class="dashboard-section">
+                <h3>Upcoming Deadlines</h3>
+                <ul id="upcomingDeadlines" class="upcoming-deadlines">
+                    {% for task in upcoming_tasks %}
+                    <li>
+                        <strong>{{ task.title }}</strong> - 📅 {{ task.deadline.strftime('%d %b %Y') if task.deadline else "No Deadline" }}
+                    </li>
+                    {% else %}
+                    <p>No upcoming tasks.</p>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Task Category Chart -->
+            <div class="dashboard-section">
+                <h3>Task Categories</h3>
+                <canvas id="taskChart"></canvas>
+            </div>
+        </div>
+
+        <!-- My Tasks Content -->
+        <div id="tasks-content" class="tab-content">
+            <h2>My Tasks</h2>
+            <div class="task-container">
+                {% for task in tasks %}
+                <div class="task-card">
+                    <div class="task-header">
+                        <span class="task-title">{{ task.title }}</span>
+                        <span class="task-category category-{{ task.category | lower }}">{{ task.category }}</span>
+                    </div>
+                    <p class="task-info">{{ task.description or "No description" }}</p>
+                    <p class="task-info">📅 {{ task.deadline.strftime('%d %b %Y') if task.deadline else "No Deadline" }}</p>
+                    <div class="task-footer">
+                        <button class="complete-btn" data-id="{{ task._id }}">
+                            {% if task.completed %} ✅ Completed {% else %} ✏️ Mark as Done {% endif %}
+                        </button>
+                        <button class="delete-btn" data-id="{{ task._id }}">🗑 Delete</button>
+                    </div>
+                </div>
+                {% else %}
+                <p>No tasks found.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <!-- Log Out Content -->
+        <div id="logout-content" class="tab-content">
+            <p>Logging out...</p>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="task-modal">
+        <div class="modal-content">
+            <h3>Add New Task</h3>
+            <form id="task-form">
+                <label for="task-title">Task Title</label>
+                <div class="input-group">
+                    <i class="fas fa-tasks"></i>
+                    <input id="task-title" type="text" placeholder="Enter task title" required>
+                </div>
+
+                <label for="task-category">Category</label>
+                <div class="input-group">
+                    <i class="fas fa-folder"></i>
+                    <select id="task-category">
+                        <option value="Work">Work</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Study">Study</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <label for="task-priority">Priority</label>
+                <div class="input-group">
+                    <i class="fas fa-flag"></i>
+                    <select id="task-priority">
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+
+                <label for="task-deadline">Deadline</label>
+                <div class="input-group">
+                    <i class="fas fa-calendar-alt"></i>
+                    <input id="task-deadline" type="date" required>
+                </div>
+
+                <label for="task-desc">Description</label>
+                <textarea id="task-desc" placeholder="Describe your task"></textarea>
+
+                <div class="button-group">
+                    <button type="submit">Add Task</button>
+                    <button id="close-modal" class="close-text">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

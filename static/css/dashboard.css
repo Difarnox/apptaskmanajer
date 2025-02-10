@@ -1,0 +1,606 @@
+/* ===== GLOBAL STYLES ===== */
+/* Reset margin dan padding default untuk semua elemen dan menetapkan box-sizing */
+* {
+    margin: 0; /* Menghapus margin default */
+    padding: 0; /* Menghapus padding default */
+    box-sizing: border-box; /* Memastikan ukuran elemen termasuk padding dan border */
+}
+
+body {
+    display: flex; /* Membuat layout fleksibel untuk konten body */
+    min-height: 100vh; /* Memastikan tinggi minimum body sesuai viewport */
+    font-family: Arial, sans-serif; /* Mengatur font default */
+    background-color: #F8F8F8; /* Warna latar belakang lembut */
+    overflow-x: hidden; /* Mencegah scroll horizontal */
+    font-size: 16px; /* Ukuran font default */
+}
+
+ /* ===== SIDEBAR ===== */
+ .sidebar {
+    width: 270px;
+    background: #FFF;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    left: 0;
+    transition: left 0.3s;
+  }
+  
+  .sidebar .logo {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #222;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+  }
+  
+  .sidebar li {
+    padding: 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 18px;
+    color: #555;
+    border-radius: 8px;
+  }
+
+  .sidebar li:hover {
+    background: #FFDD55; /* Warna latar kuning saat hover */
+    color: #000; /* Warna teks hitam */
+    font-weight: bold; /* Cetak tebal */
+  }
+
+/* ===== SETTINGS ===== */
+.settings {
+    margin-top: auto; /* Dorong settings ke bawah sidebar */
+    padding: 20px 0; /* Spasi vertikal */
+    display: flex; /* Aktifkan flexbox */
+    flex-direction: column; /* Tata letak kolom */
+    gap: 15px; /* Jarak antar elemen settings */
+    border-top: 1px solid #ddd; /* Garis pemisah di bagian atas */
+    color: #555; /* Warna teks */
+    font-size: 18px; /* Ukuran font */
+}
+
+.settings p {
+    padding: 10px 15px; /* Spasi dalam */
+    cursor: pointer; /* Ubah kursor menjadi pointer */
+    transition: background 0.3s, color 0.3s; /* Transisi halus untuk latar dan warna teks */
+    border-radius: 8px; /* Sudut membulat */
+}
+
+.settings p:hover {
+    background-color: #FFDD55; /* Warna latar kuning saat hover */
+    color: #000; /* Warna teks hitam */
+    font-weight: bold; /* Cetak tebal saat hover */
+}
+  
+  /* ===== MAIN CONTENT ===== */
+/* Kontainer utama untuk isi halaman */
+.main-content {
+    margin-left: 250px; /* Jarak dari sisi kiri (menghindari sidebar) */
+    padding: 20px; /* Spasi dalam konten */
+    flex: 1; /* Isi sisa ruang dengan fleksibel */
+    display: flex; /* Aktifkan flexbox */
+    flex-direction: column; /* Tata letak vertikal */
+}
+
+/* ===== HEADER ===== */
+/* Header utama untuk halaman */
+header {
+    display: flex; /* Tata letak fleksibel untuk header */
+    justify-content: space-between; /* Sebar elemen secara horizontal */
+    align-items: center; /* Ratakan elemen secara vertikal */
+    background: #FFF; /* Warna latar putih */
+    padding: 15px 20px; /* Spasi dalam header */
+    border-radius: 10px; /* Sudut membulat */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    margin-bottom: 10px; /* Jarak bawah header */
+}
+
+/* Penataan container search */
+header .search-container {
+    display: flex; /* Tata letak fleksibel untuk kontainer pencarian */
+    align-items: center; /* Ratakan konten secara vertikal */
+    flex: 1; /* Isi ruang yang tersedia */
+}
+
+.search-container {
+    flex: 1; /* Ambil lebih banyak ruang untuk kotak pencarian */
+    margin-right: 20px; /* Jarak antara pencarian dan tombol lainnya */
+}
+
+header input {
+    padding: 10px 15px; /* Spasi dalam untuk input */
+    border: 1px solid #CCC; /* Batas warna abu-abu */
+    border-radius: 8px; /* Sudut membulat */
+    font-size: 16px; /* Ukuran font */
+    width: 100%; /* Lebar penuh */
+}
+
+header input::placeholder {
+    padding-left: 10px; /* Jarak teks placeholder dari kiri */
+}
+
+/* Styling for Upcoming Deadlines Section */
+.upcoming-deadlines-section {
+    background: #fef9e7; /* Warna latar lembut */
+    padding: 1.5rem; /* Spasi dalam */
+    border-radius: 12px; /* Sudut membulat */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    margin-top: 2rem; /* Jarak atas */
+    transition: transform 0.2s ease-in-out; /* Transisi untuk animasi hover */
+}
+
+.upcoming-deadlines-section:hover {
+    transform: translateY(-3px); /* Efek naik sedikit saat hover */
+}
+
+.upcoming-deadlines-title {
+    font-size: 1.8rem; /* Ukuran font besar untuk judul */
+    font-weight: bold; /* Cetak tebal */
+    color: #555; /* Warna teks abu-abu */
+    margin-bottom: 1rem; /* Jarak bawah */
+    text-align: center; /* Perataan teks di tengah */
+}
+
+.upcoming-deadlines {
+    list-style: none; /* Hapus bullet list */
+    padding: 0; /* Hapus padding default */
+}
+
+.upcoming-deadlines li {
+    background: #fff; /* Warna latar putih */
+    padding: 10px 15px; /* Spasi dalam */
+    margin: 8px 0; /* Jarak antar item */
+    border-radius: 8px; /* Sudut membulat */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    display: flex; /* Tata letak fleksibel */
+    justify-content: space-between; /* Sebar konten antar elemen */
+    align-items: center; /* Ratakan konten secara vertikal */
+    font-size: 1rem; /* Ukuran font */
+}
+
+.upcoming-deadlines li span {
+    font-weight: bold; /* Cetak tebal untuk teks */
+    color: #333; /* Warna teks gelap */
+}
+
+.upcoming-deadlines li .deadline-date {
+    font-size: 0.9rem; /* Ukuran font lebih kecil */
+    color: #888; /* Warna teks abu-abu */
+}
+
+/* High Priority Deadline */
+.upcoming-deadlines li.high-priority {
+    background: #f8d7da; /* Warna latar merah muda */
+    border-left: 5px solid #dc3545; /* Garis merah di kiri */
+}
+
+.upcoming-deadlines li.medium-priority {
+    background: #fff3cd; /* Warna latar kuning pucat */
+    border-left: 5px solid #ffc107; /* Garis kuning di kiri */
+}
+
+.upcoming-deadlines li.low-priority {
+    background: #d4edda; /* Warna latar hijau pucat */
+    border-left: 5px solid #28a745; /* Garis hijau di kiri */
+}
+/* ===== BUTTON NEW TASK ===== */
+/* Tombol untuk menambahkan task baru */
+.new-task {
+    background: #FFDD55; /* Warna latar kuning cerah */
+    border: none; /* Hapus border */
+    padding: 10px 20px; /* Spasi dalam */
+    border-radius: 8px; /* Sudut membulat */
+    cursor: pointer; /* Ubah kursor menjadi pointer */
+    font-weight: bold; /* Teks cetak tebal */
+    transition: background 0.3s; /* Transisi perubahan warna */
+    font-size: 16px; /* Ukuran font */
+}
+
+.new-task:hover {
+    background: #FFA000; /* Warna latar lebih gelap saat hover */
+    transform: translateY(-3px); /* Efek naik sedikit saat hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
+}
+
+/* ===== TABS CONTENT ===== */
+/* Kontainer untuk isi tab */
+.tab-content {
+    background: #FFF; /* Warna latar putih */
+    padding: 20px; /* Spasi dalam */
+    border-radius: 15px; /* Sudut membulat */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    display: none; /* Sembunyikan secara default */
+    opacity: 0; /* Buat tidak terlihat */
+    transition: opacity 0.3s ease-in-out; /* Transisi untuk opacity */
+}
+
+.tab-content.active {
+    display: block; /* Tampilkan konten jika aktif */
+    opacity: 1; /* Buat terlihat */
+}
+
+/* ===== TASK LIST ===== */
+/* Daftar task */
+#task-list, #deadline-list {
+    list-style: none; /* Hapus bullet point */
+    padding: 10px 0; /* Spasi dalam atas dan bawah */
+}
+
+#task-list li {
+    background: #FFF; /* Warna latar putih */
+    padding: 10px; /* Spasi dalam */
+    margin: 10px 0; /* Jarak antar item */
+    border-radius: 8px; /* Sudut membulat */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    display: flex; /* Tata letak fleksibel */
+    justify-content: space-between; /* Sebar konten antar elemen */
+    align-items: center; /* Ratakan konten secara vertikal */
+}
+
+#task-list li.completed {
+    text-decoration: line-through; /* Coret teks jika task selesai */
+    opacity: 0.7; /* Buat teks lebih transparan */
+}
+
+.task-title {
+    font-weight: bold; /* Teks cetak tebal untuk judul task */
+}
+
+.complete-btn, .delete-btn {
+    border: none; /* Hapus border */
+    padding: 5px 10px; /* Spasi dalam */
+    border-radius: 5px; /* Sudut membulat */
+    cursor: pointer; /* Ubah kursor menjadi pointer */
+}
+
+.complete-btn {
+    background-color: #28a745; /* Warna hijau */
+    color: white; /* Warna teks putih */
+}
+
+.complete-btn:hover {
+    background-color: #218838; /* Warna lebih gelap saat hover */
+}
+
+.delete-btn {
+    background-color: #dc3545; /* Warna merah */
+    color: white; /* Warna teks putih */
+}
+
+.delete-btn:hover {
+    background-color: #c82333; /* Warna lebih gelap saat hover */
+}
+
+/* ===== TASK MODAL ===== */
+/* Modal untuk menambahkan task */
+#task-modal {
+    position: fixed; /* Posisi tetap di layar */
+    top: 0;
+    left: 0;
+    width: 100%; /* Lebar penuh layar */
+    height: 100%; /* Tinggi penuh layar */
+    background: rgba(0, 0, 0, 0.4); /* Latar belakang gelap transparan */
+    display: flex; /* Tata letak fleksibel */
+    justify-content: center; /* Pusatkan secara horizontal */
+    align-items: center; /* Pusatkan secara vertikal */
+    display: none; /* Sembunyikan secara default */
+}
+
+/* Modal Box */
+.modal-content {
+    background: #FFF; /* Warna latar putih */
+    padding: 20px; /* Spasi dalam */
+    border-radius: 10px; /* Sudut membulat */
+    width: 450px; /* Lebar kotak modal */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* Bayangan lembut */
+}
+
+/* Header Modal */
+.modal-content h3 {
+    text-align: center; /* Posisikan teks ke tengah */
+    font-size: 18px; /* Ukuran font */
+    font-weight: bold; /* Cetak tebal */
+    margin-bottom: 15px; /* Jarak bawah */
+}
+
+/* Label */
+.modal-content label {
+    font-size: 14px; /* Ukuran font */
+    font-weight: bold; /* Cetak tebal */
+    display: block; /* Tampilkan sebagai blok */
+    margin-bottom: 5px; /* Jarak bawah */
+}
+
+/* Input, Select, Textarea */
+.modal-content input, 
+.modal-content textarea, 
+.modal-content select {
+    width: 100%; /* Lebar penuh */
+    padding: 6px; /* Spasi dalam */
+    height: 20px; /* Tinggi input */
+    margin: 5px 0; /* Jarak vertikal antar elemen */
+    border: 1px solid #BBB; /* Batas abu-abu */
+    border-radius: 5px; /* Sudut membulat */
+    font-size: 12px; /* Ukuran font */
+    background: #F9F9F9; /* Warna latar abu terang */
+    outline: none; /* Hapus outline default */
+}
+
+/* Dropdown */
+.modal-content select {
+    height: 30px; /* Tinggi dropdown */
+}
+
+/* Textarea (Deskripsi lebih tinggi) */
+.modal-content textarea {
+    height: 80px; /* Tinggi lebih besar untuk deskripsi */
+    resize: none; /* Nonaktifkan pengubahan ukuran */
+}
+
+/* Input dengan Icon */
+.input-group {
+    display: flex; /* Tata letak fleksibel */
+    align-items: center; /* Ratakan konten secara vertikal */
+    background: #F9F9F9; /* Warna latar abu terang */
+    border: 1px solid #BBB; /* Batas abu-abu */
+    border-radius: 6px; /* Sudut membulat */
+    padding: 5px; /* Spasi dalam */
+    margin-bottom: 8px; /* Jarak bawah */
+}
+
+.input-group i {
+    font-size: 13px; /* Ukuran ikon */
+    color: #555; /* Warna teks abu */
+    margin-right: 8px; /* Jarak ikon dari input */
+}
+
+.input-group input, 
+.input-group select {
+    height: 25px; /* Tinggi dropdown */
+    border: none; /* Hapus border */
+    background: transparent; /* Warna latar transparan */
+    flex: 1; /* Isi sisa ruang */
+    font-size: 12px; /* Ukuran font */
+    outline: none; /* Hapus outline */
+    padding: 5px; /* Spasi dalam */
+}
+
+/* Tombol */
+.button-group {
+    display: flex; /* Tata letak fleksibel */
+    justify-content: space-between; /* Sebar tombol secara horizontal */
+    gap: 8px; /* Jarak antar tombol */
+    margin-top: 12px; /* Jarak atas */
+}
+
+.button-group button {
+    flex: 1; /* Isi ruang dengan proporsi yang sama */
+    padding: 10px; /* Spasi dalam */
+    font-size: 14px; /* Ukuran font */
+    border: 1px solid #FFBB33; /* Batas warna kuning */
+    border-radius: 6px; /* Sudut membulat */
+    font-weight: bold; /* Cetak tebal */
+    cursor: pointer; /* Ubah kursor menjadi pointer */
+}
+
+/* Warna tombol */
+.button-group button:first-child {
+    background: #FFDD55; /* Warna latar kuning */
+    color: black; /* Warna teks hitam */
+}
+
+.button-group button:first-child:hover {
+    background: #FFC107; /* Warna latar lebih gelap saat hover */
+}
+
+/* Tombol Close sama dengan Add Task */
+.button-group button:last-child {
+    background: #FFDD55; /* Warna latar kuning */
+    color: black; /* Warna teks hitam */
+}
+
+.button-group button:last-child:hover {
+    background: #FFC107; /* Warna lebih gelap saat hover */
+}
+  
+ /* ===== MY TASK SECTION ===== */
+.task-container {
+    display: grid; /* Mengatur elemen dalam bentuk grid */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Grid responsif dengan kolom minimum 280px */
+    gap: 15px; /* Jarak antar elemen grid */
+    padding: 15px; /* Padding di dalam container */
+}
+
+.task-card {
+    background: #FFF; /* Warna latar belakang putih */
+    padding: 15px; /* Ruang di dalam kartu */
+    border-radius: 10px; /* Sudut membulat */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Bayangan lembut di bawah kartu */
+    transition: transform 0.2s ease-in-out; /* Animasi transformasi yang mulus */
+    display: flex; /* Flexbox untuk tata letak */
+    flex-direction: column; /* Tata letak kolom */
+    justify-content: space-between; /* Ruang antar elemen */
+}
+
+.task-card:hover {
+    transform: translateY(-5px); /* Kartu bergerak ke atas saat hover */
+}
+
+.task-header {
+    display: flex; /* Flexbox untuk header */
+    justify-content: space-between; /* Elemen tersebar di kiri dan kanan */
+    align-items: center; /* Elemen rata tengah secara vertikal */
+}
+
+.task-title {
+    font-size: 16px; /* Ukuran font judul */
+    font-weight: bold; /* Teks tebal */
+    color: #333; /* Warna teks gelap */
+}
+
+.task-category {
+    font-size: 12px; /* Ukuran font kecil */
+    padding: 5px 10px; /* Padding dalam kategori */
+    border-radius: 20px; /* Sudut membulat penuh */
+    font-weight: bold; /* Teks tebal */
+    text-transform: capitalize; /* Huruf pertama kapital */
+}
+
+.category-work { background: #FFDD55; color: #333; } /* Kategori Work */
+.category-personal { background: #6BCB77; color: white; } /* Kategori Personal */
+.category-study { background: #007BFF; color: white; } /* Kategori Study */
+.category-other { background: #888; color: white; } /* Kategori Other */
+
+.task-info {
+    margin-top: 10px; /* Margin atas */
+    font-size: 14px; /* Ukuran font informasi */
+    color: #666; /* Warna teks abu-abu */
+}
+
+.task-footer {
+    display: flex; /* Flexbox untuk footer */
+    justify-content: space-between; /* Elemen tersebar di kiri dan kanan */
+    margin-top: 10px; /* Margin atas */
+}
+
+.task-footer button {
+    padding: 7px 10px; /* Padding tombol */
+    font-size: 13px; /* Ukuran font tombol */
+    border: none; /* Tanpa border */
+    border-radius: 5px; /* Sudut tombol membulat */
+    cursor: pointer; /* Pointer saat hover */
+    font-weight: bold; /* Teks tebal */
+}
+
+.complete-btn { background: #28a745; color: white; } /* Tombol Complete */
+.complete-btn:hover { background: #218838; } /* Warna hover Tombol Complete */
+
+.delete-btn { background: #dc3545; color: white; } /* Tombol Delete */
+.delete-btn:hover { background: #c82333; } /* Warna hover Tombol Delete */
+
+/* Main Content Styling */
+.main-content {
+    margin-left: 250px; /* Margin kiri untuk konten utama */
+    padding: 2rem; /* Padding dalam konten utama */
+    transition: all 0.3s ease-in-out; /* Animasi perubahan margin */
+}
+
+.sidebar.active ~ .main-content {
+    margin-left: 0; /* Menghilangkan margin saat sidebar aktif */
+}
+
+/* Dashboard Stats */
+.dashboard-stats {
+    display: grid; /* Grid untuk statistik dashboard */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Kolom fleksibel */
+    gap: 1rem; /* Jarak antar kartu statistik */
+    margin-top: 1.5rem; /* Margin atas */
+}
+
+.stat-card {
+    background: #f0f0f5; /* Warna latar belakang kartu statistik */
+    padding: 1.5rem; /* Padding kartu */
+    border-radius: 12px; /* Sudut membulat */
+    display: flex; /* Flexbox untuk tata letak */
+    align-items: center; /* Elemen rata tengah secara vertikal */
+    gap: 1rem; /* Jarak antar elemen */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+}
+
+.stat-card i {
+    font-size: 2.5rem; /* Ukuran ikon */
+    color: #3498db; /* Warna ikon */
+}
+
+.stat-card.completed i {
+    color: #27ae60; /* Warna ikon untuk status completed */
+}
+
+.stat-card.pending i {
+    color: #f39c12; /* Warna ikon untuk status pending */
+}
+
+.stat-card h3 {
+    font-size: 2rem; /* Ukuran judul */
+    margin: 0; /* Tanpa margin */
+}
+
+.stat-card p {
+    color: #666; /* Warna teks tambahan */
+}
+
+/* Styling for Upcoming Deadlines Section */
+.dashboard-section {
+    margin: 2rem 0; /* Jarak atas dan bawah untuk section */
+    background-color: #f9f9f9; /* Warna latar belakang section */
+    padding: 1.5rem; /* Padding di dalam section */
+    border-radius: 10px; /* Sudut section membulat */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+}
+
+.dashboard-section h3 {
+    font-size: 1.5rem; /* Ukuran font untuk judul section */
+    margin-bottom: 1rem; /* Margin bawah judul */
+}
+
+.upcoming-deadlines {
+    list-style: none; /* Menghapus bullet list */
+    padding: 0; /* Menghilangkan padding bawaan */
+}
+
+.upcoming-deadlines li {
+    padding: 0.5rem 0; /* Padding atas dan bawah setiap item */
+    font-size: 1rem; /* Ukuran font item deadline */
+    border-bottom: 1px solid #ddd; /* Garis bawah pemisah item */
+}
+
+.upcoming-deadlines li:last-child {
+    border-bottom: none; /* Menghapus garis bawah untuk item terakhir */
+}
+
+/* Chart Container */
+.dashboard-section canvas {
+    max-width: 100%; /* Batas maksimum lebar 100% */
+    width: 400px; /* Lebar default canvas */
+    height: 250px; /* Tinggi default canvas */
+    margin: 1rem auto; /* Margin atas dan bawah, posisi tengah */
+    display: block; /* Tampilkan sebagai block */
+    background-color: #ffffff; /* Warna latar belakang chart */
+    border-radius: 8px; /* Sudut membulat */
+    padding: 0.5rem; /* Padding di dalam chart */
+}
+
+
+/* ===== Media Queries untuk Responsiveness ===== */
+
+/* Untuk perangkat dengan lebar layar maksimal 768px */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 170px;
+    }
+    .main-content {
+        margin-left: 150px; /* Sesuai dengan lebar sidebar agar menempel */
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        left: -100%;
+        position: absolute;
+        width: 190px; /* Pastikan ukurannya tetap */
+    }
+    .main-content {
+        margin-left: 0; /* Ketika sidebar tersembunyi, konten utama penuh */
+    }
+    .sidebar.open {
+        left: 0;
+    }
+}
