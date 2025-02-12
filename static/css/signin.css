@@ -160,18 +160,19 @@ input {
 
 .password-container {
     position: relative;
-    display: flex;
-    align-items: center;
+    width: 100%;
 }
 
 .password-container input {
-    padding-left: 35px; /* Beri ruang untuk ikon */
     width: 100%;
+    padding-right: 40px; /* Beri ruang untuk ikon di sebelah kanan */
 }
 
 .password-container i {
     position: absolute;
-    left: 10px; /* Geser ke kiri */
+    right: 10px; /* Geser ke kanan */
+    top: 50%;
+    transform: translateY(-50%);
     color: #777;
     cursor: pointer;
 }
