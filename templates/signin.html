@@ -13,14 +13,18 @@
         <div class="form-container">
             <form id="loginForm" method="POST">
                 <h1 class="form-title">Sign In</h1>
+                
                 <input type="email" id="loginEmail" name="email" placeholder="Email" required />
-                <input type="password" id="loginPassword" name="password" placeholder="Password" required />
+
+                <div class="password-container">
+                    <i class="fas fa-eye" id="togglePassword"></i>
+                    <input type="password" id="loginPassword" name="password" placeholder="Password" required />
+                </div>
+
                 <div id="loginErrorContainer"></div>
                 
-                <!-- 🔹 Perbaikan: Tambahkan event.preventDefault(); di signin.js -->
                 <a href="/forgot-password" id="forgotPasswordLink">Forgot password?</a>
 
-                <!-- 🔹 Perbaikan: Tambahkan ID "loginButton" agar loading state bisa berfungsi -->
                 <button type="submit" id="loginButton">Sign In</button>
 
                 <span class="separator">or</span>
@@ -31,7 +35,6 @@
                 </div>
 
                 <p class="already-have-account">
-                    <!-- 🔹 Perbaikan: ID harusnya "signUpLink" bukan "signInLink" -->
                     Don't have an account? <a href="/signup" id="signUpLink">Sign Up</a>
                 </p>
             </form>
@@ -39,5 +42,18 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/signin.js') }}"></script>
+    <script>
+        // 🔹 Toggle Password Visibility
+        document.getElementById("togglePassword").addEventListener("click", function () {
+            const passwordField = document.getElementById("loginPassword");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                this.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                this.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        });
+    </script>
 </body>
 </html>
