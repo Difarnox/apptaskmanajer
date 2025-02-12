@@ -41,8 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fetch("/signup", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
+      headers: { "Content-Type": "application/json" }, // 🔹 Ubah ke JSON
+      body: JSON.stringify({
         username: username,
         email: email,
         password: password,
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(data => {
       if (data.success) {
         alert("Registrasi berhasil! Silakan login.");
-        window.location.href = "/signin"; // 🔹 Arahkan ke signin
+        window.location.href = "/signin"; // 🔹 Arahkan ke halaman signin
       } else {
         showError(data.error, "registerErrorContainer");
       }
@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // 🔹 HANDLE "SIGN IN" LINK
-  document.getElementById("signInLink").addEventListener("click", function(event) {
+  signInLink.addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "/"; // 🔹 Arahkan ke signin
+    window.location.href = "/signin"; // 🔹 Perbaiki ke "/signin"
   });
 });
