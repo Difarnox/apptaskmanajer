@@ -33,7 +33,7 @@ def signin():
 # === SIGNUP PAGE (GET) ===
 @app.route('/signup', methods=['GET'])
 def signup_page():
-    return render_template('signup.html')  # Pastikan signup.html ada di folder templates
+    return render_template('signin.html')
 
 # === SIGNUP FUNCTIONALITY (POST) ===
 @app.route('/signup', methods=['POST'])
