@@ -67,8 +67,11 @@ def signup():
     return render_template('signup.html')
     
 # === Forgot Password ===
-@app.route('/forgot-password', methods=['POST'])
+@app.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
+    if request.method == 'GET':
+        return render_template('forgot_password.html')  # Tampilkan halaman forgot password
+    
     try:
         data = request.get_json()
         email = data.get('email')
@@ -87,8 +90,7 @@ def forgot_password():
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({'success': False, 'error': 'Terjadi kesalahan server!'}), 500
-
-
+        
 # === Reset Password ===
 @app.route('/reset-password', methods=['POST'])
 def reset_password():
