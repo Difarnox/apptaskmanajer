@@ -115,10 +115,10 @@ input {
 .social-container {
     margin: 8px 0;
     display: flex;
-    justify-content: space-between;
-    gap: 8px; /* Kurangi jarak antar ikon */
-    width: 100%;
-    max-width: 300px;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 5px;  /* Kurangi jarak ke atas */
+    margin-bottom: 20px; /* Tambahkan jarak ke bawah */
 }
 
 .social-container a {
@@ -132,7 +132,9 @@ input {
     background-color: #fff;
     color: #555;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 16px; /* Kurangi ukuran font ikon */
+    height: 34px; /* Kurangi ukuran ikon */
+    width: 34px;
+    font-size: 15px; /* Sedikit lebih kecil */
 }
 
 .social-container a:hover {
