@@ -127,7 +127,7 @@ input {
     text-align: center;
     height: 40px;  /* Ukuran lingkaran */
     width: 40px;
-    line-height: 36px; /* Biar ikon tepat di tengah */
+    line-height: 40px; /* Biar ikon tepat di tengah */
     background-color: #fff;
     color: #555;
     transition: background-color 0.3s ease, transform 0.2s ease;
