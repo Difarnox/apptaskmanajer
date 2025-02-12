@@ -1,5 +1,6 @@
 Flask==3.1.0
 Flask-PyMongo==3.0.1
-dnspython==1.16.0
-pymongo[srv]==3.10.1
-python-dotenv==0.13.0
+dnspython==2.4.2
+pymongo==4.5.0
+python-dotenv==1.0.0
+gunicorn==21.2.0
