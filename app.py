@@ -38,10 +38,13 @@ def signup():
         email = request.form.get('email')
         password = request.form.get('password')
 
+        print(f"📝 Data yang diterima - Username: {username}, Email: {email}")  # Debugging
+
         if not username or not email or not password:
             return jsonify({'success': False, 'error': 'Harap isi semua kolom!'})
 
         if mongo.db.users.find_one({"email": email}):
+            print("❌ Email sudah terdaftar!")  # Debugging
             return jsonify({'success': False, 'error': 'Email sudah terdaftar!'})
 
         hashed_password = generate_password_hash(password)
@@ -50,6 +53,8 @@ def signup():
             "email": email,
             "password": hashed_password
         })
+
+        print("✅ Registrasi berhasil!")  # Debugging
         return jsonify({'success': True})
 
     return render_template('signup.html')
