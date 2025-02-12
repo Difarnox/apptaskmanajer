@@ -165,16 +165,21 @@ input {
 
 .password-container input {
     width: 100%;
-    padding-right: 40px; /* Beri ruang untuk ikon di sebelah kanan */
+    padding-right: 45px; /* Ruang untuk ikon mata */
+    box-sizing: border-box; /* Pastikan padding tidak membuat input lebih besar */
 }
 
-.password-container i {
+.password-toggle {
     position: absolute;
-    right: 10px; /* Geser ke kanan */
+    right: 10px; /* Jarak dari kanan */
     top: 50%;
     transform: translateY(-50%);
-    color: #777;
     cursor: pointer;
+    color: #777;
+}
+
+.password-toggle i {
+    font-size: 18px;
 }
 
 /* Responsive Design for Tablets */
