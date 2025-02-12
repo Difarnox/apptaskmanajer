@@ -17,7 +17,7 @@ mongo = PyMongo(app)
 def signin():
     if request.method == 'POST':
         try:
-            data = request.get_json(force=True)  # 🔹 Ambil JSON dari request
+            data = request.get_json(force=True)  # Ambil JSON dari request
             email = data.get('email')
             password = data.get('password')
         except:
@@ -28,7 +28,7 @@ def signin():
 
         user = mongo.db.users.find_one({"email": email})
         if user and check_password_hash(user["password"], password):
-            session['user_id'] = str(user['_id'])  # Simpan user_id sebagai string
+            session['user_id'] = str(user['_id'])  # 🔹 Simpan user_id sebagai string
             return jsonify({'success': True})
 
         return jsonify({'success': False, 'error': 'Email atau password salah!'}), 401
@@ -113,20 +113,23 @@ def dashboard():
     if 'user_id' not in session:
         return redirect(url_for('signin'))
 
-    user = mongo.db.users.find_one({"_id": ObjectId(session['user_id'])})
+    try:
+        user = mongo.db.users.find_one({"_id": ObjectId(session['user_id'])})
+    except:
+        return redirect(url_for('logout'))  # Logout jika terjadi error parsing ObjectId
+
     if not user:
         return redirect(url_for('logout'))  # Logout jika user tidak valid
 
-    tasks = list(mongo.db.tasks.find({"user_id": session['user_id']}))
+    tasks = list(mongo.db.tasks.find({"user_id": ObjectId(session['user_id'])}))  # 🔹 Ambil task berdasarkan ObjectId
 
-    # Konversi deadline ke datetime object hanya jika masih dalam bentuk string
     for task in tasks:
         if 'deadline' in task and task['deadline']:
-            if isinstance(task['deadline'], str):  # Cek apakah deadline masih string
+            if isinstance(task['deadline'], str):  # Jika masih string, konversi ke datetime
                 try:
                     task['deadline'] = datetime.strptime(task['deadline'], '%Y-%m-%d')
                 except ValueError:
-                    task['deadline'] = None  # Jika error, set ke None
+                    task['deadline'] = None
 
     total_tasks = len(tasks)
     completed_tasks = sum(1 for task in tasks if task.get('completed', False))
@@ -139,7 +142,6 @@ def dashboard():
 
     today = datetime.today().date()
 
-    # Filter Upcoming Deadlines
     upcoming_tasks = [task for task in tasks if task.get('deadline') and task['deadline'].date() >= today]
 
     return render_template('dashboard.html', user=user, tasks=tasks,
@@ -167,7 +169,7 @@ def add_task():
         return jsonify({'success': False, 'error': 'Invalid deadline format!'})
 
     new_task = {
-        "user_id": session['user_id'],  # 🔹 Simpan ID user
+        "user_id": ObjectId(session['user_id']),  # 🔹 Konversi user_id ke ObjectId
         "title": data['title'],
         "category": data['category'],
         "priority": data['priority'],
@@ -186,11 +188,11 @@ def get_tasks():
     if 'user_id' not in session:
         return jsonify({'success': False, 'error': 'User not logged in'})
 
-    # 🔹 Ambil hanya task milik user yang login
-    tasks = list(mongo.db.tasks.find({"user_id": session['user_id']}))
+    tasks = list(mongo.db.tasks.find({"user_id": ObjectId(session['user_id'])}))  # 🔹 Gunakan ObjectId
+
     for task in tasks:
         task["_id"] = str(task["_id"])
-        task["deadline"] = task["deadline"].strftime('%Y-%m-%d')
+        task["deadline"] = task["deadline"].strftime('%Y-%m-%d') if task["deadline"] else None
 
     return jsonify({'success': True, 'tasks': tasks})
 
@@ -200,16 +202,17 @@ def delete_task(task_id):
     if 'user_id' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
 
-    print(f"🔍 Menerima request DELETE untuk Task ID: {task_id} dari User: {session['user_id']}")  # Debugging
-
-    # 🔹 Hapus task berdasarkan ObjectId
-    result = mongo.db.tasks.delete_one({"_id": ObjectId(task_id), "user_id": session['user_id']})
+    try:
+        result = mongo.db.tasks.delete_one({
+            "_id": ObjectId(task_id), 
+            "user_id": ObjectId(session['user_id'])  # 🔹 Pastikan hanya user pemilik yang bisa hapus task
+        })
+    except:
+        return jsonify({'error': 'Invalid Task ID'}), 400
 
     if result.deleted_count == 0:
-        print("⚠️ Task tidak ditemukan atau tidak terhapus.")  # Debugging
         return jsonify({'error': 'Task not found or unauthorized'}), 404
 
-    print("✅ Task berhasil dihapus!")  # Debugging
     return jsonify({'success': True})
 
 # === STATISTIK TASK ===
