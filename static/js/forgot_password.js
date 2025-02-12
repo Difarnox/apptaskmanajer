@@ -31,10 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 submitButton.innerText = "Kirim";
 
                 if (data.success) {
-                    // 🔹 Berhasil: Redirect ke halaman reset password
+                    // 🔹 Redirect ke halaman reset password jika email valid
                     window.location.href = `/reset-password?email=${encodeURIComponent(email)}`;
                 } else {
-                    // 🔹 Tampilkan error dari server
+                    // 🔹 Tampilkan pesan error ke pengguna
                     errorContainer.innerHTML = `<p class="error">${data.error}</p>`;
                 }
             })
