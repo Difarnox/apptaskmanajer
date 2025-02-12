@@ -66,6 +66,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // 🔹 HANDLE "SIGN IN" LINK
   signInLink.addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "/signin"; // 🔹 Perbaiki ke "/signin"
+    window.location.href = "/"; // 🔹 Perbaiki ke "/signin"
   });
 });
