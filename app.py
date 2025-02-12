@@ -30,39 +30,38 @@ def signin():
 
     return render_template('signin.html')
 
-# === SIGNUP PAGE (GET) ===
-@app.route('/signup', methods=['GET'])
-def signup_page():
-    return render_template('signin.html')
-
-# === SIGNUP FUNCTIONALITY (POST) ===
-@app.route('/signup', methods=['POST'])
+# === SIGNUP (REGISTER) ===
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    data = request.get_json(force=True)  # 🔹 Paksa baca JSON dari request
-    print(f"📥 Data yang diterima: {data}")  # Debugging: Cek apakah data masuk
+    if request.method == 'POST':
+        data = request.get_json(force=True)  # 🔹 Ambil data dari JSON request
+        print(f"📥 Data yang diterima: {data}")  # Debugging: Cek apakah data masuk
 
-    username = data.get('username')
-    email = data.get('email')
-    password = data.get('password')
+        username = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
 
-    # 🔹 Validasi apakah ada data kosong
-    if not username or not email or not password:
-        return jsonify({'success': False, 'error': 'Harap isi semua kolom!'}), 400
+        # 🔹 Validasi input
+        if not username or not email or not password:
+            return jsonify({'success': False, 'error': 'Harap isi semua kolom!'}), 400
 
-    # 🔹 Cek apakah email sudah terdaftar
-    if mongo.db.users.find_one({"email": email}):
-        return jsonify({'success': False, 'error': 'Email sudah terdaftar!'}), 400
+        # 🔹 Cek apakah email sudah terdaftar
+        if mongo.db.users.find_one({"email": email}):
+            return jsonify({'success': False, 'error': 'Email sudah terdaftar!'}), 400
 
-    # 🔹 Hash password & simpan ke MongoDB
-    hashed_password = generate_password_hash(password)
-    mongo.db.users.insert_one({
-        "username": username,
-        "email": email,
-        "password": hashed_password
-    })
+        # 🔹 Hash password & simpan ke MongoDB
+        hashed_password = generate_password_hash(password)
+        mongo.db.users.insert_one({
+            "username": username,
+            "email": email,
+            "password": hashed_password
+        })
 
-    print("✅ Registrasi berhasil!")  # Debugging
-    return jsonify({'success': True, 'message': 'Registrasi berhasil!'})
+        print("✅ Registrasi berhasil!")  # Debugging
+        return jsonify({'success': True, 'message': 'Registrasi berhasil!'}), 200
+
+    # 🔹 Render halaman Sign Up jika metode GET
+    return render_template('signup.html')
     
 # === Forgot Password ===
 @app.route('/forgot-password', methods=['GET', 'POST'])
