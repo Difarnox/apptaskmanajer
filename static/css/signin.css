@@ -123,15 +123,15 @@ input {
 .social-container a {
     border: 2px solid #bbb;
     border-radius: 50%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px; /* Ukuran ikon */
-    width: 40px;
+    display: inline-block; 
+    text-align: center;
+    height: 36px;  /* Ukuran lingkaran */
+    width: 36px;
+    line-height: 36px; /* Biar ikon tepat di tengah */
     background-color: #fff;
     color: #555;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 15px; /* Sedikit lebih kecil */
+    font-size: 16px; /* Ukuran ikon sekitar 45% dari lingkaran */
 }
 
 .social-container a:hover {
