@@ -1,5 +1,5 @@
-Flask==2.3.2
-pymongo[srv]==4.5.0
+Flask==3.1.0
+Flask-PyMongo==3.0.1
 dnspython==2.3.0
-python-dotenv==1.0.1
-werkzeug==2.3.7
+pymongo==4.5.0
+python-dotenv==0.13.0
