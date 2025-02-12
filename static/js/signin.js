@@ -23,13 +23,6 @@ if (signUpLink) {
   });
 }
 
-// 🔹 Event listener ikon sosial media
-document.querySelectorAll(".social").forEach((icon) => {
-  icon.addEventListener("click", () => {
-    window.location.href = "/under_construction";
-  });
-});
-
 // 🔹 Fungsi menampilkan error ke UI
 function showError(message, containerId) {
   const errorContainer = document.getElementById(containerId);
@@ -43,12 +36,9 @@ function showError(message, containerId) {
 // 🔹 Fungsi Menampilkan Loading State
 function setLoading(isLoading) {
   const loginButton = document.getElementById("loginButton");
-  if (isLoading) {
-    loginButton.disabled = true;
-    loginButton.innerHTML = "Loading...";
-  } else {
-    loginButton.disabled = false;
-    loginButton.innerHTML = "Sign In";
+  if (loginButton) {
+    loginButton.disabled = isLoading;
+    loginButton.innerHTML = isLoading ? "Loading..." : "Sign In";
   }
 }
 
@@ -58,38 +48,37 @@ document.addEventListener("DOMContentLoaded", function () {
     loginForm.addEventListener("submit", function (event) {
       event.preventDefault();
 
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+      const errorContainer = "loginErrorContainer"; // ID container untuk error
+
+      // 🔹 Validasi input kosong
+      if (!email || !password) {
+        showError("Email dan password harus diisi!", errorContainer);
+        return;
+      }
 
       // 🔹 Tampilkan loading state
       setLoading(true);
 
-      fetch("/signin", {
+      fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email.trim(),
-          password: password.trim(),
-        }),
+        body: JSON.stringify({ email, password }),
       })
-        .then((response) => {
-          setLoading(false);
-          if (!response.ok) {
-            throw new Error("Terjadi kesalahan pada server.");
-          }
-          return response.json();
-        })
+        .then((response) => response.json())
         .then((data) => {
+          setLoading(false);
           if (data.success) {
-            window.location.href = "/dashboard"; // 🔹 Berhasil login
+            window.location.href = "/dashboard"; // 🔹 Redirect ke dashboard jika login sukses
           } else {
-            showError(data.error, "loginErrorContainer");
+            showError(data.error, errorContainer);
           }
         })
         .catch((error) => {
           setLoading(false);
           console.error("Error:", error);
-          alert("Terjadi kesalahan. Silakan coba lagi!");
+          showError("Terjadi kesalahan. Silakan coba lagi!", errorContainer);
         });
     });
   }
