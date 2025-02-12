@@ -53,6 +53,7 @@ def signup():
     })
 
     return jsonify({'success': True})
+    return render_template('signup.html')
 
 # === Forgot Password ===
 @app.route('/forgot-password', methods=['GET', 'POST'])
