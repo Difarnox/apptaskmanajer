@@ -165,7 +165,7 @@ input {
 
 .password-container input {
     width: 100%;
-    padding-right: 40px; /* Beri ruang untuk ikon di sebelah kanan */
+    padding-right: 30px; /* Beri ruang untuk ikon di sebelah kanan */
 }
 
 .password-container i {
