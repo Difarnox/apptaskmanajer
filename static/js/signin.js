@@ -40,6 +40,18 @@ function showError(message, containerId) {
   }
 }
 
+// 🔹 Fungsi Menampilkan Loading State
+function setLoading(isLoading) {
+  const loginButton = document.getElementById("loginButton");
+  if (isLoading) {
+    loginButton.disabled = true;
+    loginButton.innerHTML = "Loading...";
+  } else {
+    loginButton.disabled = false;
+    loginButton.innerHTML = "Sign In";
+  }
+}
+
 // 🔹 Event Listener Saat Halaman Selesai Dimuat
 document.addEventListener("DOMContentLoaded", function () {
   if (loginForm) {
@@ -49,15 +61,24 @@ document.addEventListener("DOMContentLoaded", function () {
       const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
 
+      // 🔹 Tampilkan loading state
+      setLoading(true);
+
       fetch("/signin", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          email: encodeURIComponent(email),
-          password: encodeURIComponent(password),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim(),
+          password: password.trim(),
         }),
       })
-        .then((response) => response.json())
+        .then((response) => {
+          setLoading(false);
+          if (!response.ok) {
+            throw new Error("Terjadi kesalahan pada server.");
+          }
+          return response.json();
+        })
         .then((data) => {
           if (data.success) {
             window.location.href = "/dashboard"; // 🔹 Berhasil login
@@ -66,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         })
         .catch((error) => {
+          setLoading(false);
           console.error("Error:", error);
           alert("Terjadi kesalahan. Silakan coba lagi!");
         });
