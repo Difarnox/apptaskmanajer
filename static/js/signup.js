@@ -1,4 +1,4 @@
-/// 🔹 Ambil elemen-elemen form dan tombol
+// 🔹 Event Listener Saat Halaman Selesai Dimuat
 document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.getElementById("registerForm");
     const signInLink = document.getElementById("signInLink"); // Link ke signin
@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data.success) {
                     alert("Registrasi berhasil! Silakan login.");
+                    clearInputs(); // 🔹 Kosongkan input setelah registrasi berhasil
                     window.location.href = "/signin"; // 🔹 Arahkan ke halaman signin
                 } else {
                     showError(data.error, "registerErrorContainer");
@@ -54,6 +55,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // 🔹 Fungsi untuk mengosongkan inputan setelah registrasi sukses
+    function clearInputs() {
+        document.querySelectorAll('input').forEach(input => input.value = '');
+    }
+
     // 🔹 HANDLE "SIGN IN" LINK
     if (signInLink) {
         signInLink.addEventListener("click", function(event) {
@@ -61,16 +67,11 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "/signin"; // 🔹 Arahkan ke halaman signin
         });
     }
-});
 
-// 🔹 Fungsi untuk mengosongkan inputan
-function clearInputs() {
-  document.querySelectorAll('input').forEach(input => input.value = '');
-}
-
-// 🔹 Event listener ikon sosial media
-document.querySelectorAll('.social').forEach(icon => {
-  icon.addEventListener('click', () => {
-    window.location.href = '/under_construction';
-  });
+    // 🔹 Event listener ikon sosial media
+    document.querySelectorAll('.social').forEach(icon => {
+        icon.addEventListener('click', () => {
+            window.location.href = '/under_construction';
+        });
+    });
 });
