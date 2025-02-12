@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (data.success) {
                     alert("Registrasi berhasil! Silakan login.");
                     clearInputs(); // 🔹 Kosongkan input setelah sukses
-                    window.location.href = "/"; // 🔹 Redirect ke halaman signin
+                    window.location.href = "/signin"; // 🔹 Redirect ke halaman signin
                 } else {
                     showError(data.error, "registerErrorContainer");
                 }
@@ -62,9 +62,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 🔹 HANDLE "SIGN IN" LINK - Navigasi ke halaman signin
     if (signInLink) {
-        signInLink.addEventListener("click", function(event) {
-            event.preventDefault();
-            window.location.href = "/"; // 🔹 Arahkan ke halaman signin
+        signInLink.addEventListener("click", function() {
+            window.location.href = "/signin"; // 🔹 Arahkan ke halaman signin tanpa event.preventDefault()
         });
     }
 
