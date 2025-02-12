@@ -11,5 +11,9 @@
       "src": "/(.*)",
       "dest": "app.py"
     }
-  ]
+  ],
+  "env": {
+    "MONGO_URI": "mongodb+srv://taskmanager:<db_password>@taskmanager.nac8v.mongodb.net/?retryWrites=true&w=majority&appName=taskmanager",
+    "SECRET_KEY": "taskmanager"
+  }
 }
