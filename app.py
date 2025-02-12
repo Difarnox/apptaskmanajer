@@ -30,7 +30,12 @@ def signin():
 
     return render_template('signin.html')
 
-# === SIGNUP ===
+# === SIGNUP PAGE (GET) ===
+@app.route('/signup', methods=['GET'])
+def signup_page():
+    return render_template('signup.html')  # Pastikan signup.html ada di folder templates
+
+# === SIGNUP FUNCTIONALITY (POST) ===
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json(force=True)  # 🔹 Paksa baca JSON dari request
@@ -58,9 +63,7 @@ def signup():
 
     print("✅ Registrasi berhasil!")  # Debugging
     return jsonify({'success': True, 'message': 'Registrasi berhasil!'})
-
- return render_template('signup.html')  # Pastikan file signup.html ada di folder templates
-
+    
 # === Forgot Password ===
 @app.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
