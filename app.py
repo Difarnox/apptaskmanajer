@@ -31,26 +31,35 @@ def signin():
     return render_template('signin.html')
 
 # === SIGNUP ===
-@app.route('/signup', methods=['POST'])
+# SIGNUP (Tambahkan print)
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    data = request.get_json()  # 🔹 Ambil data JSON dari request
-    
-    username = data.get('username')
-    email = data.get('email')
-    password = data.get('password')
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-    if not username or not email or not password:
-        return jsonify({'success': False, 'error': 'Harap isi semua kolom!'})
+        print(f"📝 Signup Request: Username={username}, Email={email}")  # Debugging
 
-    if mongo.db.users.find_one({"email": email}):
-        return jsonify({'success': False, 'error': 'Email sudah terdaftar!'})
+        if not username or not email or not password:
+            return jsonify({'success': False, 'error': 'Harap isi semua kolom!'})
 
-    hashed_password = generate_password_hash(password)
-    mongo.db.users.insert_one({
-        "username": username,
-        "email": email,
-        "password": hashed_password
-    })
+        existing_user = mongo.db.users.find_one({"email": email})
+        if existing_user:
+            print("❌ Email sudah terdaftar!")  # Debugging
+            return jsonify({'success': False, 'error': 'Email sudah terdaftar!'})
+
+        hashed_password = generate_password_hash(password)
+        result = mongo.db.users.insert_one({
+            "username": username,
+            "email": email,
+            "password": hashed_password
+        })
+
+        print(f"✅ User berhasil terdaftar! ID: {result.inserted_id}")  # Debugging
+        return jsonify({'success': True})
+
+    return render_template('signup.html')
 
     return jsonify({'success': True})
     return render_template('signup.html')
