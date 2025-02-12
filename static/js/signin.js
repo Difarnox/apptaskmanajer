@@ -8,10 +8,11 @@ function clearInputs() {
   document.querySelectorAll("input").forEach((input) => (input.value = ""));
 }
 
-// 🔹 Event listener link "Lupa password?"
+// 🔹 Event listener link "Forgot Password?"
 if (forgotPasswordLink) {
-  forgotPasswordLink.addEventListener("click", () => {
-    window.location.href = "/forgot-password";
+  forgotPasswordLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    window.location.href = "/forgot-password"; // 🔹 Pindah ke halaman Forgot Password
   });
 }
 
