@@ -71,7 +71,7 @@ def signup():
 def forgot_password():
     if request.method == 'GET':
         return render_template('forgot_password.html')  # Tampilkan halaman forgot password
-    
+
     try:
         data = request.get_json()
         email = data.get('email')
