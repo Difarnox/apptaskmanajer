@@ -59,6 +59,8 @@ def signup():
     print("✅ Registrasi berhasil!")  # Debugging
     return jsonify({'success': True, 'message': 'Registrasi berhasil!'})
 
+ return render_template('signup.html')  # Pastikan file signup.html ada di folder templates
+
 # === Forgot Password ===
 @app.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
