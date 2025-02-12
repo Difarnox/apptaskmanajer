@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (signInLink) {
         signInLink.addEventListener("click", function(event) {
             event.preventDefault();
-            window.location.href = "/signin"; // 🔹 Arahkan ke halaman signin
+            window.location.href = "/"; // 🔹 Arahkan ke halaman signin
         });
     }
 
