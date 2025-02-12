@@ -13,7 +13,7 @@
     }
   ],
   "env": {
-    "MONGO_URI": "mongodb+srv://taskmanager:<db_password>@taskmanager.nac8v.mongodb.net/?retryWrites=true&w=majority&appName=taskmanager",
+    "MONGO_URI": "mongodb+srv://taskmanager:taskmanager@taskmanager.nac8v.mongodb.net/taskmanager?retryWrites=true&w=majority&appName=taskmanager",
     "SECRET_KEY": "taskmanager"
   }
 }
