@@ -158,6 +158,26 @@ input {
     font-size: 14px;
 }
 
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    width: 100%;
+    padding: 10px 40px 10px 10px; /* Beri ruang untuk ikon di kanan */
+    font-size: 16px;
+}
+
+.password-container i {
+    position: absolute;
+    right: 10px; /* Ikon berada di dalam input */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777;
+}
+
 /* Responsive Design for Tablets */
 @media (max-width: 768px) {
     body {
