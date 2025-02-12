@@ -12,7 +12,7 @@ app.config["MONGO_URI"] = os.getenv("MONGO_URI")  # Ambil dari Vercel
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")  # Ambil dari Vercel
 mongo = PyMongo(app)
 
-# === SIGNIN ===
+# === SIGN IN (LOGIN) ===
 @app.route('/', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
@@ -24,43 +24,39 @@ def signin():
 
         user = mongo.db.users.find_one({"email": email})
         if user and check_password_hash(user["password"], password):
-            session['user_id'] = str(user['_id'])  # Simpan sesi pengguna
+            session['user_id'] = str(user['_id'])  # 🔹 Simpan sesi pengguna
             return jsonify({'success': True})
+
         return jsonify({'success': False, 'error': 'Email atau password salah!'})
 
     return render_template('signin.html')
 
-# === SIGNUP (REGISTER) ===
+# === SIGN UP (REGISTER) ===
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        data = request.get_json(force=True)  # 🔹 Ambil data dari JSON request
-        print(f"📥 Data yang diterima: {data}")  # Debugging: Cek apakah data masuk
+        data = request.get_json(force=True)
 
         username = data.get('username')
         email = data.get('email')
         password = data.get('password')
 
-        # 🔹 Validasi input
         if not username or not email or not password:
             return jsonify({'success': False, 'error': 'Harap isi semua kolom!'}), 400
 
-        # 🔹 Cek apakah email sudah terdaftar
         if mongo.db.users.find_one({"email": email}):
             return jsonify({'success': False, 'error': 'Email sudah terdaftar!'}), 400
 
-        # 🔹 Hash password & simpan ke MongoDB
         hashed_password = generate_password_hash(password)
+
         mongo.db.users.insert_one({
             "username": username,
             "email": email,
             "password": hashed_password
         })
 
-        print("✅ Registrasi berhasil!")  # Debugging
         return jsonify({'success': True, 'message': 'Registrasi berhasil!'}), 200
 
-    # 🔹 Render halaman Sign Up jika metode GET
     return render_template('signup.html')
     
 # === Forgot Password ===
