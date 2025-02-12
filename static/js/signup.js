@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // 🔹 HANDLE "SIGN IN" LINK
-  signInLink.addEventListener("click", function (event) {
+  document.getElementById("signInLink").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "/signin";
+    window.location.href = "/signin"; // 🔹 Arahkan ke signin
   });
 });
