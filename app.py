@@ -16,18 +16,22 @@ mongo = PyMongo(app)
 @app.route('/', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
+        try:
+            data = request.get_json(force=True)  # 🔹 Ambil JSON dari request
+            email = data.get('email')
+            password = data.get('password')
+        except:
+            return jsonify({'success': False, 'error': 'Invalid request format!'}), 400
 
         if not email or not password:
-            return jsonify({'success': False, 'error': 'Email dan password harus diisi!'})
+            return jsonify({'success': False, 'error': 'Email dan password harus diisi!'}), 400
 
         user = mongo.db.users.find_one({"email": email})
         if user and check_password_hash(user["password"], password):
-            session['user_id'] = str(user['_id'])  # 🔹 Simpan sesi pengguna
+            session['user_id'] = str(user['_id'])  # Simpan user_id sebagai string
             return jsonify({'success': True})
 
-        return jsonify({'success': False, 'error': 'Email atau password salah!'})
+        return jsonify({'success': False, 'error': 'Email atau password salah!'}), 401
 
     return render_template('signin.html')
 
@@ -35,7 +39,10 @@ def signin():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        data = request.get_json(force=True)
+        if request.is_json:  # Pastikan request adalah JSON
+            data = request.get_json()
+        else:
+            return jsonify({'success': False, 'error': 'Invalid request format!'}), 400
 
         username = data.get('username')
         email = data.get('email')
