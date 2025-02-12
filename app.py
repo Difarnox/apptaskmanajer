@@ -31,33 +31,28 @@ def signin():
     return render_template('signin.html')
 
 # === SIGNUP ===
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup', methods=['POST'])
 def signup():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
+    data = request.get_json()  # 🔹 Ambil data JSON dari request
+    
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
 
-        print(f"📝 Data yang diterima - Username: {username}, Email: {email}")  # Debugging
+    if not username or not email or not password:
+        return jsonify({'success': False, 'error': 'Harap isi semua kolom!'})
 
-        if not username or not email or not password:
-            return jsonify({'success': False, 'error': 'Harap isi semua kolom!'})
+    if mongo.db.users.find_one({"email": email}):
+        return jsonify({'success': False, 'error': 'Email sudah terdaftar!'})
 
-        if mongo.db.users.find_one({"email": email}):
-            print("❌ Email sudah terdaftar!")  # Debugging
-            return jsonify({'success': False, 'error': 'Email sudah terdaftar!'})
+    hashed_password = generate_password_hash(password)
+    mongo.db.users.insert_one({
+        "username": username,
+        "email": email,
+        "password": hashed_password
+    })
 
-        hashed_password = generate_password_hash(password)
-        mongo.db.users.insert_one({
-            "username": username,
-            "email": email,
-            "password": hashed_password
-        })
-
-        print("✅ Registrasi berhasil!")  # Debugging
-        return jsonify({'success': True})
-
-    return render_template('signup.html')
+    return jsonify({'success': True})
 
 # === Forgot Password ===
 @app.route('/forgot-password', methods=['GET', 'POST'])
