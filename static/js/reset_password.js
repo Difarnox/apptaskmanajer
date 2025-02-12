@@ -56,6 +56,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // 🔹 Toggle visibility password
+        document.getElementById("togglePassword").addEventListener("click", function () {
+            const passwordField = document.getElementById("newPassword");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                passwordField.type = "password";
+                this.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        });
+
     // 🔹 Event listener untuk tombol kembali ke halaman login
     document.getElementById("backToLogin").addEventListener("click", function (event) {
         event.preventDefault();
