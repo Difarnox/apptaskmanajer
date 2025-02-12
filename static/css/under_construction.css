@@ -57,3 +57,52 @@ p {
 .back-button:hover {
     background-color: #2980b9;
 }
+
+/* Responsif untuk layar kecil (tablet & mobile) */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+        width: 95%; /* Lebih responsif pada layar kecil */
+    }
+
+    .icon {
+        font-size: 100px; /* Sedikit lebih kecil */
+    }
+
+    h1 {
+        font-size: 36px; /* Ukuran judul dikurangi */
+    }
+
+    p {
+        font-size: 18px; /* Ukuran teks deskripsi dikurangi */
+    }
+
+    .back-button {
+        font-size: 18px; /* Ukuran tombol sedikit lebih kecil */
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        width: 90%;
+    }
+
+    .icon {
+        font-size: 80px; /* Ukuran ikon lebih kecil */
+    }
+
+    h1 {
+        font-size: 28px; /* Ukuran judul lebih kecil */
+    }
+
+    p {
+        font-size: 16px; /* Ukuran teks lebih kecil */
+    }
+
+    .back-button {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+}
