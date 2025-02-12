@@ -92,22 +92,32 @@ def forgot_password():
         return jsonify({'success': False, 'error': 'Terjadi kesalahan server!'}), 500
         
 # === Reset Password ===
-@app.route('/reset-password', methods=['POST'])
+@app.route('/reset-password', methods=['GET', 'POST'])
 def reset_password():
+    if request.method == 'GET':
+        email = request.args.get('email')
+
+        # 🔹 Validasi apakah email ada di parameter
+        if not email:
+            return "Email tidak valid!", 400
+
+        return render_template('reset_password.html', email=email)
+
     try:
         data = request.get_json()
         email = data.get('email')
         new_password = data.get('new_password')
 
+        # 🔹 Validasi input
         if not email or not new_password:
             return jsonify({'success': False, 'error': 'Email dan password baru harus diisi!'}), 400
 
-        hashed_password = generate_password_hash(new_password)
-
-        # 🔹 Periksa apakah email ada di database
         user = mongo.db.users.find_one({"email": email})
         if not user:
             return jsonify({'success': False, 'error': 'Email tidak ditemukan!'}), 404
+
+        # 🔹 Hash password baru
+        hashed_password = generate_password_hash(new_password)
 
         # 🔹 Update password di database
         result = mongo.db.users.update_one(
@@ -115,10 +125,11 @@ def reset_password():
             {"$set": {"password": hashed_password}}
         )
 
-        if result.matched_count:
+        # 🔹 Cek apakah password berhasil diperbarui
+        if result.modified_count > 0:
             return jsonify({'success': True, 'message': 'Password berhasil diperbarui!'}), 200
         else:
-            return jsonify({'success': False, 'error': 'Gagal memperbarui password! Coba lagi.'}), 500
+            return jsonify({'success': False, 'error': 'Password baru harus berbeda dari password lama!'}), 400
 
     except Exception as e:
         print(f"Error: {e}")
