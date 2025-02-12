@@ -113,7 +113,6 @@ input {
 }
 
 .social-container {
-    margin: 8px 0;
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -127,13 +126,11 @@ input {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    height: 36px; /* Kurangi tinggi ikon */
-    width: 36px; /* Kurangi lebar ikon */
+    height: 34px; /* Ukuran ikon */
+    width: 34px;
     background-color: #fff;
     color: #555;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    height: 34px; /* Kurangi ukuran ikon */
-    width: 34px;
     font-size: 15px; /* Sedikit lebih kecil */
 }
 
