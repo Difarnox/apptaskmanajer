@@ -164,12 +164,9 @@ input {
 }
 
 .password-container input {
-    flex: 1; /* Input mengisi sisa ruang */
-    padding: 10px 40px 10px 12px; /* Tambahkan padding kanan untuk ikon */
-    border: none;
-    background: transparent;
-    font-size: 14px;
-    outline: none;
+    width: 100%;
+    padding-right: 40px; /* Ruang untuk ikon mata */
+    box-sizing: border-box; /* Pastikan padding tidak membuat input lebih besar */
 }
 
 .password-toggle {
