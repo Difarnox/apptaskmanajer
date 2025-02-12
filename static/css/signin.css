@@ -158,25 +158,6 @@ input {
     font-size: 14px;
 }
 
-.password-container {
-    position: relative;
-    width: 100%;
-}
-
-.password-container input {
-    width: 100%;
-    padding-right: 40px; /* Beri ruang untuk ikon di sebelah kanan */
-}
-
-.password-container i {
-    position: absolute;
-    right: 10px; /* Geser ke kanan */
-    top: 50%;
-    transform: translateY(-50%);
-    color: #777;
-    cursor: pointer;
-}
-
 /* Responsive Design for Tablets */
 @media (max-width: 768px) {
     body {
@@ -213,7 +194,6 @@ input {
     }
 }
 
-/* Responsive Design for Mobile Phones */
 /* Responsive Design for Mobile Phones */
 @media (max-width: 480px) {
     body {
