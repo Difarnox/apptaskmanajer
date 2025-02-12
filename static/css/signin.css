@@ -125,8 +125,8 @@ input {
     border-radius: 50%;
     display: inline-block; 
     text-align: center;
-    height: 36px;  /* Ukuran lingkaran */
-    width: 36px;
+    height: 40px;  /* Ukuran lingkaran */
+    width: 40px;
     line-height: 36px; /* Biar ikon tepat di tengah */
     background-color: #fff;
     color: #555;
