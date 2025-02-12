@@ -31,23 +31,24 @@ def signin():
     return render_template('signin.html')
 
 # === SIGNUP ===
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup', methods=['POST'])
 def signup():
-    if request.method == 'GET':  
-        return render_template('signup.html')  # 🔹 Tambahkan ini
+    data = request.get_json(force=True)  # 🔹 Paksa baca JSON dari request
+    print(f"📥 Data yang diterima: {data}")  # Debugging: Cek apakah data masuk
 
-    data = request.get_json()  # 🔹 Ambil data JSON dari request
-    
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')
 
+    # 🔹 Validasi apakah ada data kosong
     if not username or not email or not password:
-        return jsonify({'success': False, 'error': 'Harap isi semua kolom!'})
+        return jsonify({'success': False, 'error': 'Harap isi semua kolom!'}), 400
 
+    # 🔹 Cek apakah email sudah terdaftar
     if mongo.db.users.find_one({"email": email}):
-        return jsonify({'success': False, 'error': 'Email sudah terdaftar!'})
+        return jsonify({'success': False, 'error': 'Email sudah terdaftar!'}), 400
 
+    # 🔹 Hash password & simpan ke MongoDB
     hashed_password = generate_password_hash(password)
     mongo.db.users.insert_one({
         "username": username,
@@ -55,7 +56,8 @@ def signup():
         "password": hashed_password
     })
 
-    return jsonify({'success': True})
+    print("✅ Registrasi berhasil!")  # Debugging
+    return jsonify({'success': True, 'message': 'Registrasi berhasil!'})
 
 # === Forgot Password ===
 @app.route('/forgot-password', methods=['GET', 'POST'])
