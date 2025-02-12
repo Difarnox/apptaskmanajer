@@ -14,54 +14,58 @@ document.querySelectorAll('.social').forEach(icon => {
   });
 });
 
-// 🔹 Fungsi menampilkan error ke UI
-function showError(message, containerId) {
-  const errorContainer = document.getElementById(containerId);
-  if (errorContainer) {
-    errorContainer.innerHTML = `<p style="color:red;">${message}</p>`;
-  } else {
-    alert(message);
-  }
-}
-
-// 🔹 Event Listener Saat Halaman Selesai Dimuat
 document.addEventListener("DOMContentLoaded", function () {
-  // 🔹 HANDLE REGISTER FORM
-  registerForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+    const registerForm = document.getElementById("registerForm");
 
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
+    registerForm.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-    if (!username || !email || !password) {
-      showError("Harap isi semua kolom!", "registerErrorContainer");
-      return;
-    }
+        // 🔹 Ambil nilai dari input form
+        const username = document.getElementById("username").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
 
-    fetch("/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" }, // 🔹 Ubah ke JSON
-      body: JSON.stringify({
-        username: username,
-        email: email,
-        password: password,
-      }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert("Registrasi berhasil! Silakan login.");
-        window.location.href = "/signin"; // 🔹 Arahkan ke halaman signin
-      } else {
-        showError(data.error, "registerErrorContainer");
-      }
-    })
-    .catch(error => {
-      console.error("Error:", error);
-      alert("Terjadi kesalahan saat registrasi. Silakan coba lagi!");
+        // 🔹 Validasi apakah semua kolom sudah diisi
+        if (!username || !email || !password) {
+            showError("Harap isi semua kolom!", "registerErrorContainer");
+            return;
+        }
+
+        // 🔹 Kirim request ke server Flask
+        fetch("/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                password: password
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Registrasi berhasil! Silakan login.");
+                window.location.href = "/signin"; // 🔹 Arahkan ke halaman signin
+            } else {
+                showError(data.error, "registerErrorContainer");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("Terjadi kesalahan saat registrasi. Silakan coba lagi!");
+        });
     });
-  });
+
+    // 🔹 Fungsi menampilkan error ke UI
+    function showError(message, containerId) {
+        const errorContainer = document.getElementById(containerId);
+        if (errorContainer) {
+            errorContainer.innerHTML = `<p style="color:red;">${message}</p>`;
+        } else {
+            alert(message);
+        }
+    }
+});
 
   // 🔹 HANDLE "SIGN IN" LINK
   signInLink.addEventListener("click", function(event) {
