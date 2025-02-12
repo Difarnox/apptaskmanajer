@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (data.success) {
                     alert("Registrasi berhasil! Silakan login.");
                     clearInputs(); // 🔹 Kosongkan input setelah sukses
-                    window.location.href = "/signin"; // 🔹 Redirect ke halaman signin
+                    window.location.href = "/"; // 🔹 Redirect ke halaman signin
                 } else {
                     showError(data.error, "registerErrorContainer");
                 }
