@@ -165,13 +165,13 @@ input {
 
 .password-container input {
     width: 100%;
-    padding-right: 40px; /* Ruang untuk ikon mata */
+    padding-right: 30px; /* Ruang untuk ikon mata */
     box-sizing: border-box; /* Pastikan padding tidak membuat input lebih besar */
 }
 
 .password-toggle {
     position: absolute;
-    right: 10px; /* Jarak dari kanan */
+    right: 8px; /* Jarak dari kanan */
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
