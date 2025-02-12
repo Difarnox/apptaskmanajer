@@ -1,13 +1,13 @@
-// 🔹 Event Listener Saat Halaman Selesai Dimuat
+// 🔹 Pastikan script berjalan setelah halaman dimuat
 document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.getElementById("registerForm");
-    const signInLink = document.getElementById("signInLink"); // Link ke signin
+    const signInLink = document.getElementById("signInLink"); // Link ke halaman signin
 
     if (registerForm) {
         registerForm.addEventListener("submit", function (event) {
-            event.preventDefault();
+            event.preventDefault(); // Mencegah form submit default
 
-            // 🔹 Ambil nilai dari input form
+            // 🔹 Ambil nilai input dari form
             const username = document.getElementById("username").value.trim();
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // 🔹 Kirim request ke server Flask
+            // 🔹 Kirim data ke server Flask
             fetch("/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -28,18 +28,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     password: password
                 }),
             })
-            .then(response => response.json())
+            .then(response => response.json()) // Parsing JSON response
             .then(data => {
                 if (data.success) {
                     alert("Registrasi berhasil! Silakan login.");
-                    clearInputs(); // 🔹 Kosongkan input setelah registrasi berhasil
-                    window.location.href = "/"; // 🔹 Arahkan ke halaman signin
+                    clearInputs(); // 🔹 Kosongkan input setelah sukses
+                    window.location.href = "/signin"; // 🔹 Redirect ke halaman signin
                 } else {
                     showError(data.error, "registerErrorContainer");
                 }
             })
             .catch(error => {
-                console.error("Error:", error);
+                console.error("❌ Error:", error);
                 alert("Terjadi kesalahan saat registrasi. Silakan coba lagi!");
             });
         });
@@ -55,12 +55,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // 🔹 Fungsi untuk mengosongkan inputan setelah registrasi sukses
+    // 🔹 Fungsi untuk mengosongkan input setelah registrasi sukses
     function clearInputs() {
         document.querySelectorAll('input').forEach(input => input.value = '');
     }
 
-    // 🔹 HANDLE "SIGN IN" LINK
+    // 🔹 HANDLE "SIGN IN" LINK - Navigasi ke halaman signin
     if (signInLink) {
         signInLink.addEventListener("click", function(event) {
             event.preventDefault();
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 🔹 Event listener ikon sosial media
+    // 🔹 Event listener ikon sosial media (jika ada)
     document.querySelectorAll('.social').forEach(icon => {
         icon.addEventListener('click', () => {
             window.location.href = '/under_construction';
