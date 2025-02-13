@@ -45,18 +45,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // 🔹 Funngsi Show Password
     document.addEventListener("DOMContentLoaded", function () {
-    const passwordInput = document.getElementById("password");
-    const showPasswordCheckbox = document.getElementById("showPassword");
-
-    showPasswordCheckbox.addEventListener("change", function () {
-        if (this.checked) {
-            passwordInput.type = "text";  // Ubah ke teks jika dicentang
-        } else {
-            passwordInput.type = "password";  // Kembali ke password jika tidak dicentang
+        const showPasswordCheckbox = document.getElementById("showPassword");
+        const passwordInput = document.getElementById("showPassword"); // Sesuaikan dengan ID input password
+    
+        if (showPasswordCheckbox && passwordInput) {
+            showPasswordCheckbox.addEventListener("change", function () {
+                if (this.checked) {
+                    passwordInput.type = "text"; // Tampilkan password
+                } else {
+                    passwordInput.type = "password"; // Sembunyikan password
+                }
+            });
         }
     });
-});
 
     // 🔹 Fungsi menampilkan error ke UI
     function showError(message, containerId) {
