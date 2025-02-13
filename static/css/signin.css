@@ -196,7 +196,9 @@ input {
     cursor: pointer;
 }
 
-/* Responsive Design for Tablets */
+/* ✅ RESPONSIVE DESIGN */
+
+/* Tablet */
 @media (max-width: 768px) {
     body {
         padding: 20px;
@@ -211,6 +213,12 @@ input {
     input {
         max-width: 100%;
         min-width: 100%;
+    }
+
+    /* 🔹 Pastikan padding input email sama dengan input password */
+    input[type="email"], 
+    input[type="password"] {
+        padding: 12px;
     }
 
     button {
@@ -230,14 +238,9 @@ input {
         width: 35px;
         font-size: 14px;
     }
-
-    /* ✅ Pastikan Show Password sejajar dengan input */
-    .show-password-container {
-        margin-top: 5px;
-    }
 }
 
-/* Responsive Design for Mobile Phones */
+/* Mobile */
 @media (max-width: 480px) {
     body {
         padding: 15px;
@@ -245,20 +248,23 @@ input {
 
     .container {
         width: 90%;
-        max-width: 340px;
-        padding: 18px;
+        max-width: 350px;
+        padding: 20px;
     }
 
     input {
         max-width: 100%;
         width: 100%;
-        font-size: 14px; /* Supaya lebih nyaman di layar kecil */
-        padding: 8px 10px; /* Kurangi padding biar lebih ringkas */
+    }
+
+    /* 🔹 Pastikan padding input email sama dengan input password */
+    input[type="email"], 
+    input[type="password"] {
+        padding: 12px;
     }
 
     button {
         padding: 10px 18px;
-        font-size: 12px; /* Supaya tidak terlalu besar */
     }
 
     .separator {
@@ -275,10 +281,10 @@ input {
     }
 
     .social-container a {
-        height: 30px; /* Ukuran lingkaran lebih kecil */
-        width: 30px;
-        font-size: 13px;
-        line-height: 30px;
+        height: 32px;
+        width: 32px;
+        font-size: 14px;
+        line-height: 32px;
     }
 
     .form-title {
@@ -291,25 +297,5 @@ input {
 
     #forgotPasswordLink {
         font-size: 12px;
-    }
-
-    /* ✅ Pastikan checkbox dan "Show Password" sejajar */
-    .show-password-container {
-        display: flex;
-        align-items: center;
-        margin-top: 5px;
-    }
-
-    .show-password-container input[type="checkbox"] {
-        width: 14px;
-        height: 14px;
-        margin-right: 6px;
-        cursor: pointer;
-    }
-
-    .show-password-container label {
-        font-size: 12px;
-        color: #333;
-        cursor: pointer;
     }
 }
