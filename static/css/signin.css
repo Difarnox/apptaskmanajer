@@ -158,24 +158,15 @@ input {
     font-size: 14px;
 }
 
-.password-container {
-    position: relative;
-    width: 100%;
+.show-password-container {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
 }
 
-.password-container input {
-    width: 100%;
-    padding: 10px 40px 10px 10px; /* Beri ruang untuk ikon di kanan */
-    font-size: 16px;
-}
-
-.password-container i {
-    position: absolute;
-    right: 10px; /* Ikon berada di dalam input */
-    top: 50%;
-    transform: translateY(-50%);
+.show-password-container input[type="checkbox"] {
+    margin-right: 5px;
     cursor: pointer;
-    color: #777;
 }
 
 /* Responsive Design for Tablets */
