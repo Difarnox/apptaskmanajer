@@ -46,14 +46,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-    const showPasswordCheckbox = document.getElementById("showPassword");
     const passwordInput = document.getElementById("password");
+    const showPasswordCheckbox = document.getElementById("showPassword");
 
-    if (showPasswordCheckbox && passwordInput) {
-        showPasswordCheckbox.addEventListener("change", function () {
-            passwordInput.type = this.checked ? "text" : "password";
-        });
-    }
+    showPasswordCheckbox.addEventListener("change", function () {
+        if (this.checked) {
+            passwordInput.type = "text";  // Ubah ke teks jika dicentang
+        } else {
+            passwordInput.type = "password";  // Kembali ke password jika tidak dicentang
+        }
+    });
 });
 
     // 🔹 Fungsi menampilkan error ke UI
