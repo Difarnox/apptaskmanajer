@@ -24,17 +24,17 @@ if (signUpLink) {
   });
 }
 
-// 🔹 Toggle Password Visibility
-        document.getElementById("togglePassword").addEventListener("click", function () {
-            const passwordField = document.getElementById("loginPassword");
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                this.classList.replace("fa-eye", "fa-eye-slash");
-            } else {
-                passwordField.type = "password";
-                this.classList.replace("fa-eye-slash", "fa-eye");
-            }
+document.addEventListener("DOMContentLoaded", function () {
+    const showPasswordCheckbox = document.getElementById("showPassword");
+    const passwordInput = document.getElementById("loginPassword");
+
+    if (showPasswordCheckbox) {
+        showPasswordCheckbox.addEventListener("change", function () {
+            passwordInput.type = this.checked ? "text" : "password";
         });
+    }
+});
+
 
 // 🔹 Fungsi menampilkan error ke UI
 function showError(message, containerId) {
