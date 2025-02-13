@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 🔹 Funngsi Show Password
     document.addEventListener("DOMContentLoaded", function () {
         const showPasswordCheckbox = document.getElementById("showPassword");
-        const passwordInput = document.getElementById("showPassword"); // Sesuaikan dengan ID input password
+        const passwordInput = document.getElementById("password"); // Sesuaikan dengan ID input password
     
         if (showPasswordCheckbox && passwordInput) {
             showPasswordCheckbox.addEventListener("change", function () {
