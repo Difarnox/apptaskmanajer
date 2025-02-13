@@ -26,13 +26,16 @@ if (signUpLink) {
 
 // 🔹 Funngsi Show Password
 document.addEventListener("DOMContentLoaded", function () {
-    const loginForm = document.getElementById("loginForm");
     const showPasswordCheckbox = document.getElementById("showPassword");
-    const passwordInput = document.getElementById("loginPassword");
+    const passwordInput = document.getElementById("loginPassword"); // Sesuaikan dengan ID input password
 
-    if (showPasswordCheckbox) {
+    if (showPasswordCheckbox && passwordInput) {
         showPasswordCheckbox.addEventListener("change", function () {
-            passwordInput.type = this.checked ? "text" : "password";
+            if (this.checked) {
+                passwordInput.type = "text"; // Tampilkan password
+            } else {
+                passwordInput.type = "password"; // Sembunyikan password
+            }
         });
     }
 });
