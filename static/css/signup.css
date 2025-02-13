@@ -178,7 +178,7 @@ input {
     display: flex;
     align-items: center;
     margin-top: 5px;
-    padding: 0px 20px; /* Tambahkan padding agar sejajar */
+    padding: 0px 30px; /* Tambahkan padding agar sejajar */
 }
 
 /* Checkbox ukuran sedang */
