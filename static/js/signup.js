@@ -45,6 +45,17 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    document.addEventListener("DOMContentLoaded", function () {
+    const showPasswordCheckbox = document.getElementById("showPassword");
+    const passwordInput = document.getElementById("password");
+
+    if (showPasswordCheckbox && passwordInput) {
+        showPasswordCheckbox.addEventListener("change", function () {
+            passwordInput.type = this.checked ? "text" : "password";
+        });
+    }
+});
+
     // 🔹 Fungsi menampilkan error ke UI
     function showError(message, containerId) {
         const errorContainer = document.getElementById(containerId);
