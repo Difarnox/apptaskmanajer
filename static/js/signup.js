@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 🔹 Funngsi Show Password
         document.addEventListener("DOMContentLoaded", function () {
         // Ambil elemen password input dan checkbox
-        const passwordInput = document.getElementById("registerPassword");
+        const passwordInput = document.getElementById("password");
         const showPasswordCheckbox = document.getElementById("showPassword");
     
         // Tambahkan event listener untuk checkbox
