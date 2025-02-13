@@ -238,7 +238,7 @@ input {
 /* 🔹 Mobile */
 @media (max-width: 480px) {
     body {
-        padding: 15px;
+        padding: 20px;
         height: auto;
     }
 
@@ -249,43 +249,25 @@ input {
 
     input {
         max-width: 100%;
-        width: 100%;
+        min-width: 100%;
         padding: 12px; /* Pastikan input email & password seragam */
     }
 
     button {
-        padding: 10px 18px;
-    }
-
-    .separator {
-        max-width: 250px;
-        margin: 15px auto;
-    }
-
-    .social-container {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-
-    .social-container a {
-        height: 32px;
-        width: 32px;
-        font-size: 14px;
-        line-height: 32px;
+        padding: 12px 20px;
     }
 
     .form-title {
-        font-size: 20px;
+        font-size: 22px;
     }
 
-    .already-have-account {
-        font-size: 12px;
+    .social-container {
+        gap: 10px;
     }
 
-    #forgotPasswordLink {
-        font-size: 12px;
+    .social-container a {
+        height: 35px;
+        width: 35px;
+        font-size: 14px;
     }
 }
