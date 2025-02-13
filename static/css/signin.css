@@ -239,11 +239,11 @@ input {
 @media (max-width: 480px) {
     body {
         padding: 15px;
+        height: auto;
     }
 
     .container {
         width: 90%;
-        max-width: 350px;
         padding: 20px;
     }
 
