@@ -24,17 +24,14 @@ if (signUpLink) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const showPasswordCheckbox = document.getElementById("showPassword");
-    const passwordInput = document.getElementById("loginPassword");
-
-    if (showPasswordCheckbox) {
-        showPasswordCheckbox.addEventListener("change", function () {
-            passwordInput.type = this.checked ? "text" : "password";
-        });
-    }
-});
-
+function togglePassword() {
+            var passwordField = document.getElementById("loginPassword");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
 
 // 🔹 Fungsi menampilkan error ke UI
 function showError(message, containerId) {
