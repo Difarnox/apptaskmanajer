@@ -158,21 +158,6 @@ input {
     font-size: 14px;
 }
 
-.show-password-container {
-    display: flex;
-    align-items: center; /* Selaraskan teks dan checkbox di tengah secara vertikal */
-    margin-top: 5px;
-    font-size: 12px;
-    justify-content: flex-start; /* Pastikan item dalam kontainer diatur ke kiri */
-}
-
-.show-password-container input[type="checkbox"] {
-    margin-right: 10px;
-    cursor: pointer;
-    transform: scale(0.9); /* Mengubah skala checkbox menjadi 80% dari ukuran aslinya */
-    margin-left: 0; /* Menghilangkan jarak di sebelah kiri checkbox */
-}
-
 .show-password-container label {
     margin-left: 0; /* Menghilangkan jarak di sebelah kiri teks */
 }
