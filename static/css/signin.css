@@ -162,6 +162,30 @@ input {
     margin-left: 0; /* Menghilangkan jarak di sebelah kiri teks */
 }
 
+.password-container {
+    display: flex;
+    flex-direction: column; /* Menyusun password input dan checkbox secara vertikal */
+    align-items: flex-start; /* Rata kiri */
+    width: 100%; /* Mengisi lebar form */
+}
+
+.password-container input {
+    width: 100%; /* Input password tetap penuh */
+    padding: 10px;
+    margin-bottom: 5px; /* Jarak kecil antara input dan checkbox */
+}
+
+.show-password-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.show-password-container input[type="checkbox"] {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
 /* Responsive Design for Tablets */
 @media (max-width: 768px) {
     body {
