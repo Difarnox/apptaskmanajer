@@ -158,6 +158,44 @@ input {
     font-size: 14px;
 }
 
+/* Kotak password dan "Show Password" sejajar */
+.password-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* Kotak input password */
+.password-container input {
+    width: 100%;
+}
+
+/* Container untuk checkbox agar sejajar dengan input password */
+.show-password-container {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    padding: 0px 20px; /* Tambahkan padding agar sejajar */
+}
+
+/* Checkbox ukuran sedang */
+.show-password-container input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+/* Label teks "Show Password" */
+.show-password-container label {
+    font-size: 12px;
+    color: #333;
+    cursor: pointer;
+}
+
 /* Responsive Design for Tablets */
 /* 🔹 Tablet */
 @media (max-width: 768px) {
