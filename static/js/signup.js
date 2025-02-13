@@ -45,22 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 🔹 Funngsi Show Password
-    document.addEventListener("DOMContentLoaded", function () {
-        const showPasswordCheckbox = document.getElementById("showPassword");
-        const passwordInput = document.getElementById("password"); // Sesuaikan dengan ID input password
-    
-        if (showPasswordCheckbox && passwordInput) {
-            showPasswordCheckbox.addEventListener("change", function () {
-                if (this.checked) {
-                    passwordInput.type = "text"; // Tampilkan password
-                } else {
-                    passwordInput.type = "password"; // Sembunyikan password
-                }
-            });
-        }
-    });
-
     // 🔹 Fungsi menampilkan error ke UI
     function showError(message, containerId) {
         const errorContainer = document.getElementById(containerId);
@@ -83,6 +67,22 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "/"; // 🔹 Pastikan ini mengarah ke halaman signin
         });
     }
+
+    // 🔹 Funngsi Show Password
+    document.addEventListener("DOMContentLoaded", function () {
+        const showPasswordCheckbox = document.getElementById("showPassword");
+        const passwordInput = document.getElementById("registerPassword"); // Sesuaikan dengan ID input password
+    
+        if (showPasswordCheckbox && passwordInput) {
+            showPasswordCheckbox.addEventListener("change", function () {
+                if (this.checked) {
+                    passwordInput.type = "text"; // Tampilkan password
+                } else {
+                    passwordInput.type = "password"; // Sembunyikan password
+                }
+            });
+        }
+    });
 
     // 🔹 Event listener ikon sosial media (jika ada)
     document.querySelectorAll('.social').forEach(icon => {
