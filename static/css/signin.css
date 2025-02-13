@@ -196,9 +196,9 @@ input {
     cursor: pointer;
 }
 
-/* ✅ RESPONSIVE DESIGN */
+* ✅ RESPONSIVE DESIGN */
 
-/* Tablet */
+/* 🔹 Tablet */
 @media (max-width: 768px) {
     body {
         padding: 20px;
@@ -213,12 +213,7 @@ input {
     input {
         max-width: 100%;
         min-width: 100%;
-    }
-
-    /* 🔹 Pastikan padding input email sama dengan input password */
-    input[type="email"], 
-    input[type="password"] {
-        padding: 12px;
+        padding: 12px; /* Pastikan input email & password seragam */
     }
 
     button {
@@ -240,7 +235,7 @@ input {
     }
 }
 
-/* Mobile */
+/* 🔹 Mobile */
 @media (max-width: 480px) {
     body {
         padding: 15px;
@@ -255,12 +250,7 @@ input {
     input {
         max-width: 100%;
         width: 100%;
-    }
-
-    /* 🔹 Pastikan padding input email sama dengan input password */
-    input[type="email"], 
-    input[type="password"] {
-        padding: 12px;
+        padding: 12px; /* Pastikan input email & password seragam */
     }
 
     button {
