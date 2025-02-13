@@ -178,13 +178,15 @@ input {
     display: flex;
     align-items: center;
     margin-top: 5px;
-    padding: 10px;
+    padding: 8px 12px; /* Tambahkan padding agar sejajar */
+    width: 100%;
+    max-width: 300px;
 }
 
 /* Checkbox ukuran sedang */
 .show-password-container input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     margin-right: 6px;
     cursor: pointer;
 }
