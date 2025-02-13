@@ -68,21 +68,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 🔹 Funngsi Show Password
-    document.addEventListener("DOMContentLoaded", function () {
+        // 🔹 Funngsi Show Password
+        document.addEventListener("DOMContentLoaded", function () {
+        // Ambil elemen password input dan checkbox
+        const passwordInput = document.getElementById("registerPassword");
         const showPasswordCheckbox = document.getElementById("showPassword");
-        const passwordInput = document.getElementById("registerPassword"); // Sesuaikan dengan ID input password
     
-        if (showPasswordCheckbox && passwordInput) {
-            showPasswordCheckbox.addEventListener("change", function () {
-                if (this.checked) {
-                    passwordInput.type = "text"; // Tampilkan password
-                } else {
-                    passwordInput.type = "password"; // Sembunyikan password
-                }
-            });
-        }
+        // Tambahkan event listener untuk checkbox
+        showPasswordCheckbox.addEventListener("change", function () {
+            if (this.checked) {
+                passwordInput.type = "text"; // Tampilkan password
+            } else {
+                passwordInput.type = "password"; // Sembunyikan password
+            }
+        });
     });
+
 
     // 🔹 Event listener ikon sosial media (jika ada)
     document.querySelectorAll('.social').forEach(icon => {
