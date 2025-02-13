@@ -161,12 +161,16 @@ input {
 .show-password-container {
     display: flex;
     align-items: center;
+    justify-content: flex-start; /* Posisikan ke kiri */
     margin-top: 5px;
+    font-size: 14px; /* Samakan dengan Forgot Password */
+    color: #555; /* Samakan warna */
 }
 
 .show-password-container input[type="checkbox"] {
-    margin-right: 5px;
+    margin-right: 8px;
     cursor: pointer;
+    transform: scale(1.1); /* Sedikit perbesar kotak centang */
 }
 
 /* Responsive Design for Tablets */
