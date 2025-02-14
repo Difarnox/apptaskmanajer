@@ -295,38 +295,6 @@ def search_tasks():
 
     return jsonify({'success': True, 'tasks': tasks})
 
-@app.route("/add_task", methods=["POST"])
-def add_task():
-    data = request.json
-    new_task = {
-        "title": data["title"],
-        "category": data["category"],
-        "priority": data["priority"],
-        "deadline": datetime.strptime(data["deadline"], "%Y-%m-%d") if data["deadline"] else None,
-        "description": data["description"],
-        "completed": False
-    }
-    mongo.db.tasks.insert_one(new_task)
-    return jsonify({"success": True})
-
-@app.route("/complete_task/<task_id>", methods=["POST"])
-def complete_task(task_id):
-    mongo.db.tasks.update_one({"_id": ObjectId(task_id)}, {"$set": {"completed": True}})
-    return jsonify({"success": True})
-
-@app.route("/delete_task/<task_id>", methods=["DELETE"])
-def delete_task(task_id):
-    mongo.db.tasks.delete_one({"_id": ObjectId(task_id)})
-    return jsonify({"success": True})
-
-@app.route("/task_categories")
-def task_categories():
-    categories = mongo.db.tasks.aggregate([
-        {"$group": {"_id": "$category", "count": {"$sum": 1}}}
-    ])
-    category_data = {c["_id"]: c["count"] for c in categories if c["_id"]}
-    return jsonify(category_data)
-
 # === HALAMAN UNDER CONSTRUCTION ===
 @app.route('/under_construction')
 def under_construction():
