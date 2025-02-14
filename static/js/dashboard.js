@@ -164,36 +164,35 @@ document.addEventListener("DOMContentLoaded", function () {
         return new Date(dateStr).toLocaleDateString(undefined, options);
     }
 
-    // 🔹 Hapus Tugas
-    document.addEventListener("click", function (event) {
-        if (event.target.classList.contains("delete-btn")) {
-            const taskId = event.target.getAttribute("data-id");
+            // 🔹 Hapus Tugas
+           document.addEventListener("click", function (event) {
+            if (event.target.classList.contains("delete-btn")) {
+                const taskId = event.target.getAttribute("data-id");
+        
+                fetch(`/delete_task/${taskId}`, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        event.target.closest(".task-card").remove();
+                        updateChart();
+                        loadUpcomingDeadlines();
+                        location.reload();
+                    } else {
+                        alert("Failed to delete task: " + (data.error || "Unknown error"));
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            }
+        });
 
-            fetch(`/delete_task/${taskId}`, {
-                method: "DELETE",  // Menggunakan DELETE
-                headers: { "Content-Type": "application/json" }
-            })
-
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    event.target.closest(".task-card").remove(); // Menghapus tugas dari tampilan
-                    updateChart();
-                    loadUpcomingDeadlines();
-                    location.reload();
-                } else {
-                    alert("Failed to delete task: " + (data.error || "Unknown error"));
-                }
-            })
-            .catch(error => console.error("Error:", error));
-        }
-    });
-
-    // 🔹 Toggle Task Selesai (Mark as Done)
-    document.addEventListener("click", function (event) {
+        // 🔹 Toggle Task Selesai (Mark as Done)
+        document.addEventListener("click", function (event) {
         if (event.target.classList.contains("complete-btn")) {
             const taskId = event.target.getAttribute("data-id");
-
+    
             fetch(`/toggle-task/${taskId}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" }
