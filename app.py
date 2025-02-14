@@ -210,6 +210,28 @@ def add_task():
 
     return jsonify({'success': True, 'task': new_task})
 
+# === TOGGLE TASK (Mark as Done) ===
+@app.route('/toggle-task/<task_id>', methods=['POST'])
+def toggle_task(task_id):
+    if 'user_id' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    try:
+        task = mongo.db.tasks.find_one({"_id": ObjectId(task_id), "user_id": ObjectId(session['user_id'])})
+        if not task:
+            return jsonify({'error': 'Task not found'}), 404
+
+        new_status = not task.get("completed", False)  # Toggle status
+        mongo.db.tasks.update_one(
+            {"_id": ObjectId(task_id)},
+            {"$set": {"completed": new_status}}
+        )
+
+        return jsonify({'success': True, 'completed': new_status})
+    except Exception as e:
+        print(f"Error toggling task: {e}")
+        return jsonify({'error': 'Server error'}), 500
+
 # === AMBIL SEMUA TASK USER ===
 @app.route('/tasks')
 def get_tasks():
@@ -224,16 +246,15 @@ def get_tasks():
 
     return jsonify({'success': True, 'tasks': tasks})
 
-# === DELETE TASK ===
-@app.route('/delete_task/<task_id>', methods=['POST'])
+@app.route('/delete_task/<task_id>', methods=['DELETE'])
 def delete_task(task_id):
     if 'user_id' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
 
     try:
         result = mongo.db.tasks.delete_one({
-            "_id": ObjectId(task_id), 
-            "user_id": ObjectId(session['user_id'])  # 🔹 Pastikan hanya user pemilik yang bisa hapus task
+            "_id": ObjectId(task_id),
+            "user_id": ObjectId(session['user_id'])
         })
     except:
         return jsonify({'error': 'Invalid Task ID'}), 400
@@ -250,8 +271,29 @@ def task_stats():
         return jsonify({'success': False, 'error': 'User not logged in'})
 
     categories = ["Work", "Personal", "Study", "Other"]
-    stats = {category: mongo.db.tasks.count_documents({"user_id": session['user_id'], "category": category}) for category in categories}
+    stats = {category: mongo.db.tasks.count_documents({"user_id": ObjectId(session['user_id']), "category": category}) for category in categories}
+    
     return jsonify(stats)
+
+@app.route('/search-tasks')
+def search_tasks():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'error': 'User not logged in'})
+
+    query = request.args.get('query', '').strip()
+    if not query:
+        return jsonify({'success': False, 'tasks': []})
+
+    tasks = list(mongo.db.tasks.find({
+        "user_id": ObjectId(session['user_id']),
+        "title": {"$regex": query, "$options": "i"}  # 🔍 Case-insensitive search
+    }))
+
+    for task in tasks:
+        task["_id"] = str(task["_id"])
+        task["deadline"] = task["deadline"].strftime('%Y-%m-%d') if task["deadline"] else None
+
+    return jsonify({'success': True, 'tasks': tasks})
 
 # === HALAMAN UNDER CONSTRUCTION ===
 @app.route('/under_construction')
