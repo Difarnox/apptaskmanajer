@@ -249,4 +249,21 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error loading deadlines:", error);
         }
     }
+
+    document.getElementById("search-btn").addEventListener("click", async () => {
+        let searchTerm = document.getElementById("search-input").value.trim();
+        if (!searchTerm) return;
+    
+        let response = await fetch(`/search-tasks?query=${encodeURIComponent(searchTerm)}`);
+        let data = await response.json();
+    
+        let taskContainer = document.querySelector(".task-container");
+        taskContainer.innerHTML = "";  // Kosongkan daftar sebelumnya
+    
+        if (data.success) {
+            data.tasks.forEach(task => addTaskToDOM(task));
+        } else {
+            taskContainer.innerHTML = "<p>Gagal mencari tugas.</p>";
+        }
+    });
 });
