@@ -26,8 +26,7 @@
     <div class="main-content">
         <header>
             <div class="search-container">
-                <input id="search-input" type="text" placeholder="Search...">
-                <button id="search-btn">Search</button>
+                <input type="text" placeholder="Search...">
             </div>
             <button id="add-task-btn" class="new-task">+ New Task</button>
         </header>
@@ -89,7 +88,7 @@
                 <div class="task-card">
                     <div class="task-header">
                         <span class="task-title">{{ task.title }}</span>
-                        <span class="task-category category-{{ task.category | lower }}">{{ task.category or 'No Category' }}</span>
+                        <span class="task-category category-{{ task.category | lower }}">{{ task.category }}</span>
                     </div>
                     <p class="task-info">{{ task.description or "No description" }}</p>
                     <p class="task-info">📅 {{ task.deadline.strftime('%d %b %Y') if task.deadline else "No Deadline" }}</p>
@@ -106,6 +105,7 @@
             </div>
         </div>
 
+
         <!-- Log Out Content -->
         <div id="logout-content" class="tab-content">
             <p>Logging out...</p>
@@ -113,7 +113,7 @@
     </div>
 
     <!-- Task Modal -->
-    <div id="task-modal" style="display: none;">
+    <div id="task-modal">
         <div class="modal-content">
             <h3>Add New Task</h3>
             <form id="task-form">
