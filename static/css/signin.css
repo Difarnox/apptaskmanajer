@@ -275,7 +275,10 @@ input {
     }
 
     #forgotPasswordLink {
-        font-size: 14px;
+        display: block;
+        margin-top: 10px;
+        font-size: 13px;
+        color: #555;
     }
 
     /* 🔹 Pastikan password input sejajar dengan checkbox */
