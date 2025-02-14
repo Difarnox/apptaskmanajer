@@ -188,6 +188,12 @@ input {
     margin-right: 6px;
     cursor: pointer;
 }
+/* Label teks "Show Password" */
+.show-password-container label {
+    font-size: 12px;
+    color: #333;
+    cursor: pointer;
+}
 
 .loading-spinner {
     display: none;
@@ -203,13 +209,6 @@ input {
 @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
-}
-
-/* Label teks "Show Password" */
-.show-password-container label {
-    font-size: 12px;
-    color: #333;
-    cursor: pointer;
 }
 
 /* Responsive Design for Tablets */
