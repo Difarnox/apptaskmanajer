@@ -81,6 +81,8 @@ button {
     text-transform: uppercase;
     transition: transform 80ms ease-in;
     margin: 12px 0;
+    width: 100%;
+    max-width: 300px;
 }
 
 button:active {
