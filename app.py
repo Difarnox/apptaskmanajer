@@ -256,6 +256,8 @@ def task_categories():
     ])
     
     category_data = {c["_id"]: c["count"] for c in categories if c["_id"]}
+    
+    print("Task Categories Data:", category_data)  # Debugging log
     return jsonify(category_data)
 
 # === SEARCH TASKS ===
