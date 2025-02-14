@@ -203,27 +203,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 🔹 Toggle Task Selesai (Mark as Done)
         document.addEventListener("click", function (event) {
-        if (event.target.classList.contains("complete-btn")) {
-            const taskId = event.target.getAttribute("data-id");
-    
-            fetch(`/toggle-task/${taskId}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    event.target.textContent = data.completed ? "✅ Completed" : "✏️ Mark as Done";
-                    updateChart();
-                    loadUpcomingDeadlines();
-                    location.reload();
-                } else {
-                    alert("Failed to update task status: " + (data.error || "Unknown error"));
-                }
-            })
-            .catch(error => console.error("Error:", error));
-        }
-    });
+            if (event.target.classList.contains("complete-btn")) {
+                const taskId = event.target.getAttribute("data-id");
+        
+                fetch(`/toggle_task/${taskId}`, {  // 🔹 Gunakan endpoint yang benar
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        event.target.textContent = data.completed ? "✅ Completed" : "✏️ Mark as Done";
+                        event.target.classList.toggle("done", data.completed); // 🔹 Tambahkan class CSS jika perlu
+                        updateChart();
+                        loadUpcomingDeadlines();
+                        location.reload();
+                    } else {
+                        alert("Failed to update task status: " + (data.error || "Unknown error"));
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            }
+        });
 
     // 🔹 Update Chart.js untuk menampilkan statistik tugas
    let taskChart;
