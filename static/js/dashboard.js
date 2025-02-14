@@ -226,48 +226,48 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // 🔹 Update Chart.js untuk menampilkan statistik tugas
-   async function loadTaskCategories() {
-    try {
-        let response = await fetch("/task_categories");
-        let data = await response.json();
+   let taskChart;
 
-        if (Object.keys(data).length === 0) {
-            console.warn("No category data found.");
-            return;
-        }
-
-        // Ambil elemen canvas untuk chart
-        const ctx = document.getElementById("taskChart").getContext("2d");
-
-        // Data untuk chart
-        const categories = Object.keys(data);
-        const counts = Object.values(data);
-
-        // Buat chart menggunakan Chart.js
-        new Chart(ctx, {
-            type: "doughnut",
-            data: {
-                labels: categories,
-                datasets: [{
-                    data: counts,
-                    backgroundColor: ["#ff6384", "#36a2eb", "#ffcd56", "#4bc0c0"],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: "bottom" }
-                }
+    async function updateChart() {
+        try {
+            let response = await fetch("/task_categories"); // 🔹 Gunakan endpoint yang benar
+            let data = await response.json();
+    
+            if (!data || Object.keys(data).length === 0) {
+                console.warn("No task categories found.");
+                return;
             }
-        });
-    } catch (error) {
-        console.error("Error loading task categories:", error);
+    
+            // Hapus chart lama jika ada
+            if (taskChart) taskChart.destroy();
+    
+            let ctx = document.getElementById("taskChart").getContext("2d");
+            taskChart = new Chart(ctx, {
+                type: "pie",
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        data: Object.values(data),
+                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error("Error updating chart:", error);
+        }
     }
-}
+    
+    // 🔹 Panggil updateChart saat halaman dimuat
+    document.addEventListener("DOMContentLoaded", updateChart);
 
-// Panggil fungsi untuk menampilkan chart
-document.addEventListener("DOMContentLoaded", loadTaskCategories);
 
     // 🔹 Ambil deadline tugas yang akan datang
     async function loadUpcomingDeadlines() {
