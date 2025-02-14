@@ -2,6 +2,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.getElementById("registerForm");
     const signInLink = document.getElementById("signInLink"); // Link ke halaman signin
+    const passwordInput = document.getElementById("password"); // Input password
+    const showPasswordCheckbox = document.getElementById("showPassword"); // Checkbox Show Password
 
     if (registerForm) {
         registerForm.addEventListener("submit", function (event) {
@@ -10,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // 🔹 Ambil nilai input dari form
             const username = document.getElementById("username").value.trim();
             const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value.trim();
+            const password = passwordInput.value.trim();
 
             // 🔹 Validasi apakah semua kolom sudah diisi
             if (!username || !email || !password) {
@@ -22,18 +24,14 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch("/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    username: username,
-                    email: email,
-                    password: password
-                }),
+                body: JSON.stringify({ username, email, password }),
             })
             .then(response => response.json()) // Parsing JSON response
             .then(data => {
                 if (data.success) {
                     alert("Registrasi berhasil! Silakan login.");
                     clearInputs(); // 🔹 Kosongkan input setelah sukses
-                    window.location.href = "/"; // 🔹 Redirect ke halaman signin ("/")
+                    window.location.href = "/signin"; // 🔹 Redirect ke halaman signin
                 } else {
                     showError(data.error, "registerErrorContainer");
                 }
@@ -64,26 +62,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (signInLink) {
         signInLink.addEventListener("click", function(event) {
             event.preventDefault();
-            window.location.href = "/"; // 🔹 Pastikan ini mengarah ke halaman signin
+            window.location.href = "/signin"; // 🔹 Redirect ke halaman signin yang benar
         });
     }
 
-        // 🔹 Funngsi Show Password
-        document.addEventListener("DOMContentLoaded", function () {
-        // Ambil elemen password input dan checkbox
-        const passwordInput = document.getElementById("password");
-        const showPasswordCheckbox = document.getElementById("showPassword");
-    
-        // Tambahkan event listener untuk checkbox
+    // 🔹 Fungsi Show Password
+    if (passwordInput && showPasswordCheckbox) {
         showPasswordCheckbox.addEventListener("change", function () {
-            if (this.checked) {
-                passwordInput.type = "text"; // Tampilkan password
-            } else {
-                passwordInput.type = "password"; // Sembunyikan password
-            }
+            passwordInput.type = this.checked ? "text" : "password";
         });
-    });
-
+    }
 
     // 🔹 Event listener ikon sosial media (jika ada)
     document.querySelectorAll('.social').forEach(icon => {
