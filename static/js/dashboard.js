@@ -64,7 +64,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (taskForm) {
         taskForm.addEventListener("submit", async (event) => {
             event.preventDefault();
-
+    
+            // Ambil tombol submit untuk efek loading
+            const submitButton = document.getElementById("add-task-btn");
+            submitButton.disabled = true; // Nonaktifkan tombol sementara
+            submitButton.textContent = "Loading..."; // Ubah teks tombol
+    
             // Mengambil nilai input tugas dari form
             let taskData = {
                 title: document.getElementById("task-title").value.trim(),
@@ -73,19 +78,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 deadline: document.getElementById("task-deadline").value,
                 description: document.getElementById("task-desc").value.trim()
             };
-
+    
             // Validasi input
             if (!taskData.title || !taskData.deadline) {
                 alert("Title dan Deadline harus diisi!");
+                submitButton.disabled = false;
+                submitButton.textContent = "Add Task"; // Kembalikan tombol ke semula
                 return;
             }
-
+    
             const deadlineDate = new Date(taskData.deadline);
             if (deadlineDate < new Date()) {
                 alert("Deadline tidak boleh tanggal yang sudah lewat!");
+                submitButton.disabled = false;
+                submitButton.textContent = "Add Task"; // Kembalikan tombol ke semula
                 return;
             }
-
+    
             // Mengirim data tugas ke server
             try {
                 let response = await fetch("/add-task", {
@@ -93,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(taskData)
                 });
-
+    
                 let data = await response.json();
                 if (data.success) {
                     addTaskToDOM(data.task); // Menampilkan tugas baru di halaman
@@ -107,6 +116,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             } catch (error) {
                 console.error("Error:", error);
+            } finally {
+                // Kembalikan tombol ke kondisi semula
+                submitButton.disabled = false;
+                submitButton.textContent = "Add Task";
             }
         });
     }
