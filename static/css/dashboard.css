@@ -156,7 +156,7 @@ header input::placeholder {
 
 .upcoming-deadlines li {
     background: #fff; /* Warna latar putih */
-    padding: 10px 15px; /* Spasi dalam */
+    padding: 15px 20px; /* Spasi dalam */
     margin: 8px 0; /* Jarak antar item */
     border-radius: 8px; /* Sudut membulat */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
