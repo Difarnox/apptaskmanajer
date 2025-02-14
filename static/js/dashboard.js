@@ -1,146 +1,170 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Sidebar navigation
-    const tabs = document.querySelectorAll(".nav-list li");
-    const tabContents = document.querySelectorAll(".tab-content");
+    fetchTasks(); // Ambil daftar tugas saat halaman dimuat
+    fetchTaskStats(); // Ambil statistik tugas
+    setupEventListeners(); // Pasang event listener
+});
 
-    tabs.forEach(tab => {
-        tab.addEventListener("click", function () {
-            // Remove active class from all tabs
-            tabs.forEach(t => t.classList.remove("active"));
-            this.classList.add("active");
-
-            // Hide all tab contents
-            tabContents.forEach(content => content.classList.remove("active"));
-
-            // Show the selected tab content
-            const tabName = this.getAttribute("data-tab");
-            document.getElementById(`${tabName}-content`).classList.add("active");
-        });
-    });
-
-    // Log out functionality
-    const logoutTab = document.querySelector("[data-tab='logout']");
-    logoutTab.addEventListener("click", function () {
-        window.location.href = "/logout"; // Redirect to logout route
-    });
-
-    // Task Modal
-    const taskModal = document.getElementById("task-modal");
-    const addTaskBtn = document.getElementById("add-task-btn");
-    const closeModalBtn = document.getElementById("close-modal");
-
-    addTaskBtn.addEventListener("click", function () {
-        taskModal.style.display = "block";
-    });
-
-    closeModalBtn.addEventListener("click", function (event) {
-        event.preventDefault();
-        taskModal.style.display = "none";
-    });
-
-    // Handle task form submission
-    document.getElementById("task-form").addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const title = document.getElementById("task-title").value;
-        const category = document.getElementById("task-category").value;
-        const priority = document.getElementById("task-priority").value;
-        const deadline = document.getElementById("task-deadline").value;
-        const description = document.getElementById("task-desc").value;
-
-        fetch("/add_task", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ title, category, priority, deadline, description }),
-        })
+// === FETCH SEMUA TASK ===
+function fetchTasks() {
+    fetch("/tasks")
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.reload(); // Reload dashboard to show new task
+                renderTasks(data.tasks);
             } else {
-                alert("Failed to add task");
+                console.error("Gagal mengambil tugas:", data.error);
             }
         })
-        .catch(error => console.error("Error:", error));
+        .catch(error => console.error("Error fetching tasks:", error));
+}
+
+// === TAMPILKAN SEMUA TASK DI DASHBOARD ===
+function renderTasks(tasks) {
+    const taskList = document.getElementById("task-list");
+    taskList.innerHTML = ""; // Kosongkan daftar tugas sebelum menambahkan baru
+
+    if (tasks.length === 0) {
+        taskList.innerHTML = "<p>Tidak ada tugas.</p>";
+        return;
+    }
+
+    tasks.forEach(task => {
+        const taskItem = document.createElement("div");
+        taskItem.classList.add("task-item");
+        if (task.completed) taskItem.classList.add("completed");
+
+        taskItem.innerHTML = `
+            <h3>${task.title}</h3>
+            <p><strong>Kategori:</strong> ${task.category || "Tidak ada"}</p>
+            <p><strong>Prioritas:</strong> ${task.priority || "Normal"}</p>
+            <p><strong>Deadline:</strong> ${task.deadline || "Tidak ditentukan"}</p>
+            <p>${task.description}</p>
+            <button class="mark-done" data-task-id="${task._id}">${task.completed ? "Undo" : "Mark as Done"}</button>
+            <button class="delete-task" data-task-id="${task._id}">Hapus</button>
+        `;
+
+        taskList.appendChild(taskItem);
     });
 
-    // Mark task as done
-    document.querySelectorAll(".complete-btn").forEach(button => {
-        button.addEventListener("click", function () {
-            const taskId = this.getAttribute("data-id");
+    // Reattach event listeners setelah tugas diperbarui
+    attachTaskEventListeners();
+}
 
-            fetch(`/complete_task/${taskId}`, { method: "POST" })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.reload();
-                    } else {
-                        alert("Failed to complete task");
-                    }
-                })
-                .catch(error => console.error("Error:", error));
-        });
-    });
-
-    // Delete task
-    document.querySelectorAll(".delete-btn").forEach(button => {
-        button.addEventListener("click", function () {
-            const taskId = this.getAttribute("data-id");
-
-            if (confirm("Are you sure you want to delete this task?")) {
-                fetch(`/delete_task/${taskId}`, { method: "DELETE" })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            window.location.reload();
-                        } else {
-                            alert("Failed to delete task");
-                        }
-                    })
-                    .catch(error => console.error("Error:", error));
-            }
-        });
-    });
-
-    // Search functionality
-    document.getElementById("search-btn").addEventListener("click", function () {
-        const searchTerm = document.getElementById("search-input").value.toLowerCase();
-        const taskCards = document.querySelectorAll(".task-card");
-
-        taskCards.forEach(card => {
-            const title = card.querySelector(".task-title").innerText.toLowerCase();
-            const category = card.querySelector(".task-category").innerText.toLowerCase();
-
-            if (title.includes(searchTerm) || category.includes(searchTerm)) {
-                card.style.display = "block";
-            } else {
-                card.style.display = "none";
-            }
-        });
-    });
-
-    // Chart.js - Task Categories
-    const ctx = document.getElementById("taskChart").getContext("2d");
-
-    fetch("/task_categories")
+// === MARK TASK AS DONE / UNDO ===
+function toggleTaskCompletion(taskId, button) {
+    fetch(`/toggle-task/${taskId}`, { method: "POST" })
         .then(response => response.json())
         .then(data => {
-            const categories = Object.keys(data);
-            const counts = Object.values(data);
-
-            new Chart(ctx, {
-                type: "doughnut",
-                data: {
-                    labels: categories,
-                    datasets: [{
-                        label: "Task Categories",
-                        data: counts,
-                        backgroundColor: ["#ff6384", "#36a2eb", "#ffcd56", "#4bc0c0"],
-                    }]
-                },
-            });
+            if (data.success) {
+                button.textContent = data.completed ? "Undo" : "Mark as Done";
+                button.closest(".task-item").classList.toggle("completed");
+                fetchTaskStats(); // Update statistik setelah mengubah status tugas
+            } else {
+                console.error("Gagal memperbarui tugas:", data.error);
+            }
         })
-        .catch(error => console.error("Error fetching category data:", error));
-});
+        .catch(error => console.error("Error updating task:", error));
+}
+
+// === DELETE TASK ===
+function deleteTask(taskId, taskItem) {
+    fetch(`/delete_task/${taskId}`, { method: "DELETE" })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                taskItem.remove(); // Hapus elemen tugas dari UI
+                fetchTaskStats(); // Perbarui statistik setelah menghapus tugas
+            } else {
+                console.error("Gagal menghapus tugas:", data.error);
+            }
+        })
+        .catch(error => console.error("Error deleting task:", error));
+}
+
+// === SEARCH TASKS ===
+function searchTasks(query) {
+    fetch(`/search-tasks?query=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                renderTasks(data.tasks);
+            } else {
+                console.error("Gagal mencari tugas:", data.error);
+            }
+        })
+        .catch(error => console.error("Error searching tasks:", error));
+}
+
+// === AMBIL STATISTIK TASK ===
+function fetchTaskStats() {
+    fetch("/task-stats")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("work-count").textContent = data.Work || 0;
+            document.getElementById("personal-count").textContent = data.Personal || 0;
+            document.getElementById("study-count").textContent = data.Study || 0;
+            document.getElementById("other-count").textContent = data.Other || 0;
+        })
+        .catch(error => console.error("Error fetching stats:", error));
+}
+
+// === PASANG EVENT LISTENERS ===
+function setupEventListeners() {
+    // Search event
+    document.getElementById("search-input").addEventListener("input", function () {
+        searchTasks(this.value);
+    });
+
+    // Tambah Task
+    document.getElementById("add-task-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        addNewTask();
+    });
+
+    attachTaskEventListeners();
+}
+
+// === EVENT LISTENER UNTUK TOMBOL DI TASK LIST ===
+function attachTaskEventListeners() {
+    document.querySelectorAll(".mark-done").forEach(button => {
+        button.addEventListener("click", function () {
+            toggleTaskCompletion(this.dataset.taskId, this);
+        });
+    });
+
+    document.querySelectorAll(".delete-task").forEach(button => {
+        button.addEventListener("click", function () {
+            const taskItem = this.closest(".task-item");
+            deleteTask(this.dataset.taskId, taskItem);
+        });
+    });
+}
+
+// === TAMBAH TASK BARU ===
+function addNewTask() {
+    const formData = new FormData(document.getElementById("add-task-form"));
+    const newTask = {
+        title: formData.get("title"),
+        category: formData.get("category"),
+        priority: formData.get("priority"),
+        deadline: formData.get("deadline"),
+        description: formData.get("description"),
+    };
+
+    fetch("/add-task", {
+        method: "POST",
+        body: JSON.stringify(newTask),
+        headers: { "Content-Type": "application/json" }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                fetchTasks(); // Refresh daftar tugas setelah menambahkan
+                document.getElementById("add-task-form").reset(); // Reset form
+                fetchTaskStats(); // Update statistik
+            } else {
+                console.error("Gagal menambahkan tugas:", data.error);
+            }
+        })
+        .catch(error => console.error("Error adding task:", error));
+}
