@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const signInLink = document.getElementById("signInLink"); // Link ke halaman signin
     const passwordInput = document.getElementById("password"); // Input password
     const showPasswordCheckbox = document.getElementById("showPassword"); // Checkbox Show Password
+    const registerSubmit = document.getElementById("registerSubmit"); // Tombol Submit
+    const loadingSpinner = document.getElementById("loading"); // Loading spinner
 
     if (registerForm) {
         registerForm.addEventListener("submit", function (event) {
@@ -20,6 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
+            // 🔹 Tampilkan loading dan disable tombol submit
+            registerSubmit.disabled = true;
+            loadingSpinner.style.display = "block";
+
             // 🔹 Kirim data ke server Flask
             fetch("/signup", {
                 method: "POST",
@@ -28,6 +34,10 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(response => response.json()) // Parsing JSON response
             .then(data => {
+                // 🔹 Sembunyikan loading setelah mendapatkan response
+                loadingSpinner.style.display = "none";
+                registerSubmit.disabled = false;
+
                 if (data.success) {
                     alert("Registrasi berhasil! Silakan login.");
                     clearInputs(); // 🔹 Kosongkan input setelah sukses
@@ -39,6 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => {
                 console.error("❌ Error:", error);
                 alert("Terjadi kesalahan saat registrasi. Silakan coba lagi!");
+
+                // 🔹 Sembunyikan loading jika ada error
+                loadingSpinner.style.display = "none";
+                registerSubmit.disabled = false;
             });
         });
     }
@@ -62,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (signInLink) {
         signInLink.addEventListener("click", function(event) {
             event.preventDefault();
-            window.location.href = "/"; // 🔹 Redirect ke halaman signin yang benar
+            window.location.href = "/signin"; // 🔹 Redirect ke halaman signin yang benar
         });
     }
 
