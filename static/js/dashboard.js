@@ -213,29 +213,28 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // 🔹 Update Chart.js untuk menampilkan statistik tugas
-    let taskChart;
-    async function updateChart() {
-        try {
-            let response = await fetch("/task-stats");
-            let data = await response.json();
+   async function updateChart() {
+    try {
+        let response = await fetch("/task_categories");
+        let data = await response.json();
 
-            if (taskChart) taskChart.destroy();
+        if (taskChart) taskChart.destroy();
 
-            let ctx = document.getElementById("taskChart").getContext("2d");
-            taskChart = new Chart(ctx, {
-                type: "pie",
-                data: {
-                    labels: Object.keys(data),
-                    datasets: [{
-                        data: Object.values(data),
-                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"]
-                    }]
-                }
-            });
-        } catch (error) {
-            console.error("Error updating chart:", error);
-        }
+        let ctx = document.getElementById("taskChart").getContext("2d");
+        taskChart = new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: Object.keys(data),
+                datasets: [{
+                    data: Object.values(data),
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"]
+                }]
+            }
+        });
+    } catch (error) {
+        console.error("Error updating chart:", error);
     }
+}
 
     // 🔹 Ambil deadline tugas yang akan datang
     async function loadUpcomingDeadlines() {
@@ -250,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    document.getElementById("search-btn").addEventListener("click", async () => {
+     document.getElementById("search-btn").addEventListener("click", async () => {
         let searchTerm = document.getElementById("search-input").value.trim();
         if (!searchTerm) return;
     
