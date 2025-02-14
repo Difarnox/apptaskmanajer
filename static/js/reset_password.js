@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (data.success) {
                     submitButton.innerText = "Berhasil! Mengalihkan...";
                     setTimeout(() => {
-                        window.location.href = "/signin"; // 🔹 Redirect ke halaman signin setelah sukses
+                        window.location.href = "/"; // 🔹 Redirect ke halaman signin setelah sukses
                     }, 1500);
                 } else {
                     showError(data.error);
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             backToLoginButton.innerText = "Mengalihkan...";
             backToLoginButton.disabled = true;
             setTimeout(() => {
-                window.location.href = "/signin"; // 🔹 Redirect ke halaman signin
+                window.location.href = "/"; // 🔹 Redirect ke halaman signin
             }, 1000);
         });
     }
