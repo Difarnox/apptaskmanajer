@@ -170,9 +170,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const taskId = event.target.getAttribute("data-id");
 
             fetch(`/delete_task/${taskId}`, {
-                method: "POST",
+                method: "DELETE",  // Menggunakan DELETE
                 headers: { "Content-Type": "application/json" }
             })
+
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
