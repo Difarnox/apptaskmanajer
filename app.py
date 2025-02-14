@@ -211,22 +211,27 @@ def add_task():
     return jsonify({'success': True, 'task': new_task})
 
 # === TOGGLE TASK STATUS ===
+# === TOGGLE TASK STATUS ===
 @app.route('/toggle_task/<task_id>', methods=['POST'])
 def toggle_task(task_id):
     if 'user_id' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
 
-    task = mongo.db.tasks.find_one({"_id": ObjectId(task_id), "user_id": ObjectId(session['user_id'])})
-    if not task:
-        return jsonify({'error': 'Task not found'}), 404
+    try:
+        task = mongo.db.tasks.find_one({"_id": ObjectId(task_id), "user_id": ObjectId(session['user_id'])})
+        if not task:
+            return jsonify({'error': 'Task not found'}), 404
 
-    new_status = not task.get("completed", False)
-    mongo.db.tasks.update_one(
-        {"_id": ObjectId(task_id)},
-        {"$set": {"completed": new_status}}
-    )
+        new_status = not task.get("completed", False)
+        mongo.db.tasks.update_one(
+            {"_id": ObjectId(task_id)},
+            {"$set": {"completed": new_status}}
+        )
 
-    return jsonify({'success': True, 'completed': new_status})
+        return jsonify({'success': True, 'completed': new_status})
+    except Exception as e:
+        print(f"Error toggling task: {e}")  # 🔹 Debugging error di terminal
+        return jsonify({'error': 'Internal server error'}), 500
 
 # === DELETE TASK ===
 @app.route('/delete_task/<task_id>', methods=['DELETE'])
