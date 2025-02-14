@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (signInLink) {
         signInLink.addEventListener("click", function(event) {
             event.preventDefault();
-            window.location.href = "/signin"; // 🔹 Redirect ke halaman signin yang benar
+            window.location.href = "/"; // 🔹 Redirect ke halaman signin yang benar
         });
     }
 
