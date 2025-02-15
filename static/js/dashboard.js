@@ -18,13 +18,16 @@ document.addEventListener("DOMContentLoaded", function () {
         item.addEventListener("click", function () {
             let tab = this.getAttribute("data-tab");
 
+            // Menonaktifkan semua tab sebelum mengaktifkan yang dipilih
             document.querySelectorAll(".tab-content").forEach(content => {
                 content.classList.remove("active");
             });
 
+            // Menampilkan tab yang sesuai dengan pilihan pengguna
             const activeTab = document.getElementById(tab + "-content");
             if (activeTab) activeTab.classList.add("active");
 
+            // Jika pengguna memilih "logout", arahkan ke halaman logout
             if (tab === "logout") {
                 window.location.href = "/logout";
             }
@@ -48,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
             taskModal.style.display = "none";
         });
 
+        // Menutup modal ketika tombol Escape ditekan
         document.addEventListener("keydown", (event) => {
             if (event.key === "Escape") {
                 taskModal.style.display = "none";
@@ -60,11 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (taskForm) {
         taskForm.addEventListener("submit", async (event) => {
             event.preventDefault();
-
+    
+            // Ambil tombol submit untuk efek loading
             const submitButton = document.getElementById("add-task-btn");
-            submitButton.disabled = true;
-            submitButton.textContent = "Loading...";
-
+            submitButton.disabled = true; // Nonaktifkan tombol sementara
+            submitButton.textContent = "Loading..."; // Ubah teks tombol
+    
+            // Mengambil nilai input tugas dari form
             let taskData = {
                 title: document.getElementById("task-title").value.trim(),
                 category: document.getElementById("task-category").value,
@@ -72,32 +78,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 deadline: document.getElementById("task-deadline").value,
                 description: document.getElementById("task-desc").value.trim()
             };
-
+    
+            // Validasi input
             if (!taskData.title || !taskData.deadline) {
                 alert("Title dan Deadline harus diisi!");
                 submitButton.disabled = false;
-                submitButton.textContent = "Add Task";
+                submitButton.textContent = "Add Task"; // Kembalikan tombol ke semula
                 return;
             }
-
+    
             const deadlineDate = new Date(taskData.deadline);
             if (deadlineDate < new Date()) {
                 alert("Deadline tidak boleh tanggal yang sudah lewat!");
                 submitButton.disabled = false;
-                submitButton.textContent = "Add Task";
+                submitButton.textContent = "Add Task"; // Kembalikan tombol ke semula
                 return;
             }
-
+    
+            // Mengirim data tugas ke server
             try {
                 let response = await fetch("/add-task", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(taskData)
                 });
-
+    
                 let data = await response.json();
                 if (data.success) {
-                    addTaskToDOM(data.task);
+                    addTaskToDOM(data.task); // Menampilkan tugas baru di halaman
                     taskForm.reset();
                     taskModal.style.display = "none";
                     updateChart();
@@ -109,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } catch (error) {
                 console.error("Error:", error);
             } finally {
+                // Kembalikan tombol ke kondisi semula
                 submitButton.disabled = false;
                 submitButton.textContent = "Add Task";
             }
@@ -122,11 +131,11 @@ document.addEventListener("DOMContentLoaded", function () {
             let data = await response.json();
             let taskContainer = document.querySelector(".task-container");
 
-            taskContainer.innerHTML = '<p>Loading tasks...</p>';
+            taskContainer.innerHTML = '<p>Loading tasks...</p>'; // Menampilkan pesan loading
 
             if (data.success) {
-                taskContainer.innerHTML = "";
-                data.tasks.forEach(task => addTaskToDOM(task));
+                taskContainer.innerHTML = ""; // Menghapus pesan loading
+                data.tasks.forEach(task => addTaskToDOM(task)); // Menambahkan tugas ke halaman
                 updateChart();
                 loadUpcomingDeadlines();
             } else {
@@ -138,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // 🔹 Tambahkan tugas ke DOM
+    // 🔹 Tambahkan tugas ke DOM (tampilan halaman)
     function addTaskToDOM(task) {
         let taskContainer = document.querySelector(".task-container");
 
@@ -162,11 +171,17 @@ document.addEventListener("DOMContentLoaded", function () {
         taskContainer.appendChild(taskCard);
     }
 
+    // 🔹 Format tanggal agar lebih mudah dibaca
+    function formatDate(dateStr) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateStr).toLocaleDateString(undefined, options);
+    }
+
     // 🔹 Hapus Tugas
     document.addEventListener("click", function (event) {
         if (event.target.classList.contains("delete-btn")) {
             const taskId = event.target.getAttribute("data-id");
-
+    
             fetch(`/delete_task/${taskId}`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" }
@@ -186,20 +201,47 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // 🔹 Update Chart.js
+    // 🔹 Toggle Task Selesai (Mark as Done)
+    document.addEventListener("click", function (event) {
+        if (event.target.classList.contains("complete-btn")) {
+            const taskId = event.target.getAttribute("data-id");
+    
+            fetch(`/toggle_task/${taskId}`, {  // 🔹 Gunakan endpoint yang benar
+                method: "POST",
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    event.target.textContent = data.completed ? "✅ Completed" : "✏️ Mark as Done";
+                    event.target.classList.toggle("done", data.completed); // 🔹 Tambahkan class CSS jika perlu
+                    updateChart();
+                    loadUpcomingDeadlines();
+                    location.reload();
+                } else {
+                    alert("Failed to update task status: " + (data.error || "Unknown error"));
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    });
+
+    // 🔹 Update Chart.js untuk menampilkan statistik tugas
     let taskChart;
+
     async function updateChart() {
         try {
-            let response = await fetch("/task_categories");
+            let response = await fetch("/task_categories"); // 🔹 Gunakan endpoint yang benar
             let data = await response.json();
-
+    
             if (!data || Object.keys(data).length === 0) {
                 console.warn("No task categories found.");
                 return;
             }
-
+    
+            // Hapus chart lama jika ada
             if (taskChart) taskChart.destroy();
-
+    
             let ctx = document.getElementById("taskChart").getContext("2d");
             taskChart = new Chart(ctx, {
                 type: "pie",
@@ -209,10 +251,31 @@ document.addEventListener("DOMContentLoaded", function () {
                         data: Object.values(data),
                         backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"]
                     }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
                 }
             });
         } catch (error) {
             console.error("Error updating chart:", error);
+        }
+    }
+    
+    // 🔹 Ambil deadline tugas yang akan datang
+    async function loadUpcomingDeadlines() {
+        try {
+            let response = await fetch("/api/upcoming-tasks");
+            let data = await response.json();
+            document.querySelector(".upcoming-deadlines").innerHTML = data.tasks.map(task =>
+                `<li><strong>${task.title}</strong> - 📅 ${formatDate(task.deadline)}</li>`
+            ).join("");
+        } catch (error) {
+            console.error("Error loading deadlines:", error);
         }
     }
 
