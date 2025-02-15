@@ -602,8 +602,9 @@ header input::placeholder {
 @media (max-width: 768px) {
     /* Sesuaikan ukuran chart untuk layar tablet */
     .dashboard-section canvas {
-        width: 250px; /* Lebar lebih kecil untuk tablet */
-        height: 150px; /* Tinggi lebih kecil untuk tablet */
+        width: 80% !important; /* Lebar responsif */
+        height: auto !important; /* Biarkan tinggi menyesuaikan */
+        max-width: 300px; /* Batasi ukuran maksimum */
     }
     
     /* Sidebar untuk layar tablet dan mobile */
@@ -644,8 +645,9 @@ header input::placeholder {
 @media (max-width: 480px) {
     /* Sesuaikan ukuran chart untuk layar mobile kecil */
     .dashboard-section canvas {
-        width: 200px; /* Lebar lebih kecil untuk mobile */
-        height: 120px; /* Tinggi lebih kecil untuk mobile */
+        width: 90% !important; /* Lebar responsif */
+        height: auto !important; /* Biarkan tinggi menyesuaikan */
+        max-width: 250px; /* Batasi ukuran maksimum */
     }
 
     /* Sidebar untuk layar mobile kecil */
