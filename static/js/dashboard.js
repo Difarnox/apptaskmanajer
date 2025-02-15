@@ -503,25 +503,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 🔹 Search
-    document.getElementById("search-btn").addEventListener("click", async () => {
-        let searchTerm = document.getElementById("search-input").value.trim();
-        if (!searchTerm) return;
+    document.getElementById("search-input").addEventListener("input", async function () {
+    let query = this.value.trim();
+    
+    if (query.length === 0) {
+        fetchTasks(); // Jika input kosong, tampilkan semua tugas
+        return;
+    }
 
-        try {
-            let response = await fetch(`/search_tasks?query=${encodeURIComponent(searchTerm)}`);
-            let data = await response.json();
+    try {
+        let response = await fetch(`/search-tasks?query=${encodeURIComponent(query)}`);
+        let data = await response.json();
 
-            let taskContainer = document.querySelector(".task-container");
-            taskContainer.innerHTML = "";
+        let taskContainer = document.querySelector(".task-container");
+        taskContainer.innerHTML = "";
 
-            if (data.success && data.tasks.length > 0) {
-                data.tasks.forEach(task => addTaskToDOM(task));
-            } else {
-                taskContainer.innerHTML = "<p>Tidak ada tugas yang cocok.</p>";
-            }
-        } catch (error) {
-            console.error("Error searching tasks:", error);
+        if (data.success && data.tasks.length > 0) {
+            data.tasks.forEach(task => addTaskToDOM(task));
+        } else {
+            taskContainer.innerHTML = "<p>No tasks found.</p>";
         }
-        });
+    } catch (error) {
+        console.error("Error fetching search results:", error);
+    }
     });
 });
