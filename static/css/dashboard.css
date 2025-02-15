@@ -576,6 +576,9 @@ header input::placeholder {
 .search-container {
     flex: 1; /* Ambil lebih banyak ruang untuk kotak pencarian */
     margin-right: 20px; /* Jarak antara pencarian dan tombol lainnya */
+    position: relative;
+    align-items: center;
+    width: 100%;
 }
 
 .search-container i {
