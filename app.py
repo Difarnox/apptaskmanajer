@@ -211,7 +211,6 @@ def add_task():
     return jsonify({'success': True, 'task': new_task})
 
 # === TOGGLE TASK STATUS ===
-# === TOGGLE TASK STATUS ===
 @app.route('/toggle_task/<task_id>', methods=['POST'])
 def toggle_task(task_id):
     if 'user_id' not in session:
@@ -268,25 +267,35 @@ def task_categories():
     return jsonify(category_data)
 
 # === SEARCH TASKS ===
-@app.route('/search-tasks')
+@app.route('/search-tasks', methods=['GET'])
 def search_tasks():
     if 'user_id' not in session:
-        return jsonify({'success': False, 'error': 'User not logged in'})
+        return jsonify({'success': False, 'error': 'User not logged in'}), 401
 
     query = request.args.get('query', '').strip()
+    
+    # 🔹 Debugging log
+    print(f"Search Query: {query}")
+
     if not query:
         return jsonify({'success': False, 'tasks': []})
 
-    tasks = list(mongo.db.tasks.find({
-        "user_id": ObjectId(session['user_id']),
-        "title": {"$regex": query, "$options": "i"}
-    }))
+    try:
+        tasks = list(mongo.db.tasks.find({
+            "user_id": ObjectId(session['user_id']),  # Pastikan user_id dalam format ObjectId
+            "title": {"$regex": query, "$options": "i"}  # Case-insensitive search
+        }))
 
-    for task in tasks:
-        task["_id"] = str(task["_id"])
-        task["deadline"] = task["deadline"].strftime('%Y-%m-%d') if task["deadline"] else None
+        # 🔹 Konversi hasil agar bisa dikirim sebagai JSON
+        for task in tasks:
+            task["_id"] = str(task["_id"])  # Konversi ObjectId ke string
+            task["deadline"] = task["deadline"].strftime('%Y-%m-%d') if task.get("deadline") else None
 
-    return jsonify({'success': True, 'tasks': tasks})
+        return jsonify({'success': True, 'tasks': tasks})
+
+    except Exception as e:
+        print(f"Search Error: {e}")
+        return jsonify({'success': False, 'error': 'Server error'}), 500
 
 # === HALAMAN UNDER CONSTRUCTION ===
 @app.route('/under_construction')
