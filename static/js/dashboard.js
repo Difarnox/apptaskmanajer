@@ -126,26 +126,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 🔹 Ambil Tugas dari Backend
     async function fetchTasks() {
-        try {
-            let response = await fetch("/tasks");
-            let data = await response.json();
-            let taskContainer = document.querySelector(".task-container");
-
-            taskContainer.innerHTML = '<p>Loading tasks...</p>'; // Menampilkan pesan loading
-
-            if (data.success) {
-                taskContainer.innerHTML = ""; // Menghapus pesan loading
-                data.tasks.forEach(task => addTaskToDOM(task)); // Menambahkan tugas ke halaman
-                updateChart();
-                loadUpcomingDeadlines();
-            } else {
-                taskContainer.innerHTML = "<p>Gagal mengambil data tugas.</p>";
-                console.error("Failed to fetch tasks:", data.error);
-            }
-        } catch (error) {
-            console.error("Error fetching tasks:", error);
+    try {
+        let taskContainer = document.querySelector(".task-container");
+        taskContainer.innerHTML = '<p>Loading tasks...</p>'; // Tambahkan sebelum fetch
+        
+        let response = await fetch("/tasks");
+        let data = await response.json();
+        
+        if (data.success) {
+            taskContainer.innerHTML = "";
+            data.tasks.forEach(task => addTaskToDOM(task));
+            updateChart();
+            loadUpcomingDeadlines();
+        } else {
+            taskContainer.innerHTML = "<p>Gagal mengambil data tugas.</p>";
+            console.error("Failed to fetch tasks:", data.error);
         }
+    } catch (error) {
+        console.error("Error fetching tasks:", error);
     }
+}
 
     // 🔹 Tambahkan tugas ke DOM (tampilan halaman)
     function addTaskToDOM(task) {
