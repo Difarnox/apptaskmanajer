@@ -504,27 +504,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 🔹 Search
     document.getElementById("search-input").addEventListener("input", async function () {
-    let query = this.value.trim();
-    
-    if (query.length === 0) {
-        fetchTasks(); // Jika input kosong, tampilkan semua tugas
-        return;
-    }
+        let query = this.value.trim();
 
-    try {
-        let response = await fetch(`/search-tasks?query=${encodeURIComponent(query)}`);
-        let data = await response.json();
-
-        let taskContainer = document.querySelector(".task-container");
-        taskContainer.innerHTML = "";
-
-        if (data.success && data.tasks.length > 0) {
-            data.tasks.forEach(task => addTaskToDOM(task));
-        } else {
-            taskContainer.innerHTML = "<p>No tasks found.</p>";
+        if (query.length === 0) {
+            fetchTasks();
+            return;
         }
-    } catch (error) {
-        console.error("Error fetching search results:", error);
-    }
+
+        try {
+            let response = await fetch(`/search-tasks?query=${encodeURIComponent(query)}`);
+            let data = await response.json();
+
+            let taskContainer = document.querySelector(".task-container");
+            taskContainer.innerHTML = "";
+
+            if (data.success && data.tasks.length > 0) {
+                data.tasks.forEach(task => addTaskToDOM(task));
+            } else {
+                taskContainer.innerHTML = "<p>No tasks found.</p>";
+            }
+        } catch (error) {
+            console.error("Error fetching search results:", error);
+        }
     });
 });
