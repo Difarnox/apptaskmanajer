@@ -110,11 +110,6 @@ header .search-container {
     flex: 1; /* Isi ruang yang tersedia */
 }
 
-.search-container {
-    flex: 1; /* Ambil lebih banyak ruang untuk kotak pencarian */
-    margin-right: 20px; /* Jarak antara pencarian dan tombol lainnya */
-}
-
 header input {
     padding: 10px 15px; /* Spasi dalam untuk input */
     border: 1px solid #CCC; /* Batas warna abu-abu */
@@ -579,11 +574,8 @@ header input::placeholder {
 }
 
 .search-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 800px;
+    flex: 1; /* Ambil lebih banyak ruang untuk kotak pencarian */
+    margin-right: 20px; /* Jarak antara pencarian dan tombol lainnya */
 }
 
 .search-container i {
