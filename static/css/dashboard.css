@@ -583,7 +583,7 @@ header input::placeholder {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 300px;
+    max-width: 800px;
 }
 
 .search-container i {
