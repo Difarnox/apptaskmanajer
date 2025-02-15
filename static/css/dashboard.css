@@ -578,6 +578,31 @@ header input::placeholder {
     padding: 0.5rem; /* Padding di dalam chart */
 }
 
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+}
+
+.search-container i {
+    position: absolute;
+    left: 10px;
+    color: #888;
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px 10px 10px 35px; /* Beri padding kiri agar tidak menimpa ikon */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#search-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
 
 /* ===== Media Queries untuk Responsiveness ===== */
 
