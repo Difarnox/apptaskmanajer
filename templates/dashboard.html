@@ -14,11 +14,23 @@
     <div class="sidebar">
         <div class="logo">Task Management</div>
         <ul class="nav-list">
-            <li class="active" data-tab="dashboard">Dashboard</li>
-            <li data-tab="tasks">My Tasks</li>
+            <!-- Dashboard Menu with Icon -->
+            <li class="active" data-tab="dashboard">
+                <i class="fas fa-home"></i> <!-- Icon for Dashboard -->
+                <span>Dashboard</span>
+            </li>
+            <!-- My Tasks Menu with Icon -->
+            <li data-tab="tasks">
+                <i class="fas fa-tasks"></i> <!-- Icon for My Tasks -->
+                <span>My Tasks</span>
+            </li>
         </ul>
         <div class="settings">
-            <p data-tab="logout">Log out</p>
+            <!-- Logout Menu with Icon -->
+            <p data-tab="logout">
+                <i class="fas fa-sign-out-alt"></i> <!-- Icon for Logout -->
+                <span>Log out</span>
+            </p>
         </div>
     </div>
 
@@ -105,7 +117,6 @@
                 {% endfor %}
             </div>
         </div>
-
 
         <!-- Log Out Content -->
         <div id="logout-content" class="tab-content">
