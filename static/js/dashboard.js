@@ -283,20 +283,35 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-     document.getElementById("search-btn").addEventListener("click", async () => {
-        let searchTerm = document.getElementById("search-input").value.trim();
-        if (!searchTerm) return;
-    
-        let response = await fetch(`/search-tasks?query=${encodeURIComponent(searchTerm)}`);
-        let data = await response.json();
-    
-        let taskContainer = document.querySelector(".task-container");
-        taskContainer.innerHTML = "";  // Kosongkan daftar sebelumnya
-    
-        if (data.success) {
-            data.tasks.forEach(task => addTaskToDOM(task));
-        } else {
-            taskContainer.innerHTML = "<p>Gagal mencari tugas.</p>";
-        }
-    });
+    // 🔹 Search
+    document.addEventListener("DOMContentLoaded", function () {
+    const searchBtn = document.getElementById("search-btn");
+    const searchInput = document.getElementById("search-input");
+
+    if (searchBtn && searchInput) {
+        searchBtn.addEventListener("click", async () => {
+            let searchTerm = searchInput.value.trim();
+            if (!searchTerm) {
+                alert("Masukkan kata kunci pencarian!");
+                return;
+            }
+
+            try {
+                let response = await fetch(`/search_tasks?query=${encodeURIComponent(searchTerm)}`);
+                let data = await response.json();
+
+                let taskContainer = document.querySelector(".task-container");
+                taskContainer.innerHTML = ""; // Kosongkan daftar sebelumnya
+
+                if (data.success && data.tasks.length > 0) {
+                    data.tasks.forEach(task => addTaskToDOM(task));
+                } else {
+                    taskContainer.innerHTML = "<p>Tidak ada tugas yang cocok.</p>";
+                }
+            } catch (error) {
+                console.error("Error searching tasks:", error);
+                alert("Terjadi kesalahan saat mencari tugas.");
+            }
+        });
+    }
 });
