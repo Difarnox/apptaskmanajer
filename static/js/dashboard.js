@@ -283,22 +283,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // 🔹 Search
-    document.addEventListener("DOMContentLoaded", function () {
-    // Memuat daftar tugas, grafik, dan tenggat waktu saat halaman dimuat
-    fetchTasks();
-    updateChart();
-    loadUpcomingDeadlines();
-
-    // 🔹 Sidebar Toggle
-    const sidebarToggle = document.querySelector(".sidebar-toggle");
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener("click", function () {
-            document.querySelector(".sidebar").classList.toggle("hidden");
-            document.querySelector(".main-content").classList.toggle("full-width");
-        });
-    }
-
     // 🔹 Sidebar Navigation
     document.querySelectorAll(".nav-list li, .settings p").forEach(item => {
         item.addEventListener("click", function () {
