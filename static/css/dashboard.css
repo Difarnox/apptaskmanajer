@@ -561,11 +561,10 @@ header input::placeholder {
     border-bottom: none; /* Menghapus garis bawah untuk item terakhir */
 }
 
-/* Chart Container */
+/* ===== CHART STYLES ===== */
 .dashboard-section canvas {
-    max-width: 100%; /* Batas maksimum lebar 100% */
-    width: 400px; /* Lebar default canvas */
-    height: 250px; /* Tinggi default canvas */
+    width: 400px; /* Lebar tetap untuk chart */
+    height: 250px; /* Tinggi tetap untuk chart */
     margin: 1rem auto; /* Margin atas dan bawah, posisi tengah */
     display: block; /* Tampilkan sebagai block */
     background-color: #ffffff; /* Warna latar belakang chart */
@@ -601,6 +600,12 @@ header input::placeholder {
 
 /* ===== RESPONSIVE STYLES ===== */
 @media (max-width: 768px) {
+    /* Sesuaikan ukuran chart untuk layar tablet */
+    .dashboard-section canvas {
+        width: 300px; /* Lebar lebih kecil untuk tablet */
+        height: 200px; /* Tinggi lebih kecil untuk tablet */
+    }
+    
     /* Sidebar untuk layar tablet dan mobile */
     .sidebar {
         width: 80px; /* Lebar sidebar diperkecil */
@@ -637,6 +642,11 @@ header input::placeholder {
 }
 
 @media (max-width: 480px) {
+/* Sesuaikan ukuran chart untuk layar mobile kecil */
+    .dashboard-section canvas {
+        width: 250px; /* Lebar lebih kecil untuk mobile */
+        height: 150px; /* Tinggi lebih kecil untuk mobile */
+    }
     /* Sidebar untuk layar mobile kecil */
     .sidebar {
         width: 60px; /* Lebar sidebar lebih kecil */
