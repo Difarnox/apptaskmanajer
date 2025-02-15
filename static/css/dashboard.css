@@ -599,28 +599,59 @@ header input::placeholder {
     outline: none;
 }
 
-/* ===== Media Queries untuk Responsiveness ===== */
-
-/* Untuk perangkat dengan lebar layar maksimal 768px */
+/* ===== RESPONSIVE STYLES ===== */
 @media (max-width: 768px) {
+    /* Sidebar untuk layar tablet dan mobile */
     .sidebar {
-        width: 170px;
+        width: 80px; /* Lebar sidebar diperkecil */
     }
+
+    .sidebar .logo {
+        font-size: 18px; /* Ukuran logo diperkecil */
+        text-align: center; /* Pusatkan logo */
+    }
+
+    .sidebar li span {
+        display: none; /* Sembunyikan teks menu */
+    }
+
+    .sidebar li {
+        justify-content: center; /* Pusatkan ikon */
+    }
+
+    .sidebar li i {
+        font-size: 24px; /* Perbesar ikon */
+    }
+
+    .settings p span {
+        display: none; /* Sembunyikan teks pada settings */
+    }
+
+    .settings p {
+        justify-content: center; /* Pusatkan ikon settings */
+    }
+
+    /* Sesuaikan margin main content */
     .main-content {
-        margin-left: 150px; /* Sesuai dengan lebar sidebar agar menempel */
+        margin-left: 80px; /* Sesuaikan dengan lebar sidebar yang diperkecil */
     }
 }
 
 @media (max-width: 480px) {
+    /* Sidebar untuk layar mobile kecil */
     .sidebar {
-        left: -100%;
-        position: absolute;
-        width: 190px; /* Pastikan ukurannya tetap */
+        width: 60px; /* Lebar sidebar lebih kecil */
     }
+
+    .sidebar .logo {
+        font-size: 16px; /* Ukuran logo lebih kecil */
+    }
+
+    .sidebar li i {
+        font-size: 20px; /* Ukuran ikon lebih kecil */
+    }
+
     .main-content {
-        margin-left: 0; /* Ketika sidebar tersembunyi, konten utama penuh */
-    }
-    .sidebar.open {
-        left: 0;
+        margin-left: 60px; /* Sesuaikan dengan lebar sidebar yang lebih kecil */
     }
 }
