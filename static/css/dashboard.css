@@ -607,8 +607,7 @@ header input::placeholder {
     }
 
     .sidebar .logo {
-        font-size: 18px; /* Ukuran logo diperkecil */
-        text-align: center; /* Pusatkan logo */
+        display: none; /* Sembunyikan logo */
     }
 
     .sidebar li span {
@@ -644,7 +643,7 @@ header input::placeholder {
     }
 
     .sidebar .logo {
-        font-size: 16px; /* Ukuran logo lebih kecil */
+        display: none; /* Sembunyikan logo */
     }
 
     .sidebar li i {
